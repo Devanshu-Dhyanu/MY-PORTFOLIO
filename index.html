@@ -1845,6 +1845,416 @@
         transform-style: preserve-3d;
         transition: transform 0.1s;
       }
+
+      /* ─── CHATBOT ─── */
+      .chatbot-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--red);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        z-index: 999;
+        box-shadow: 0 4px 12px rgba(230, 57, 70, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .chatbot-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+      }
+
+      .chatbot-btn.active {
+        background: var(--gold);
+      }
+
+      .chatbot-container {
+        position: fixed;
+        bottom: 88px;
+        right: 24px;
+        width: 380px;
+        height: 500px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        display: none;
+        flex-direction: column;
+        z-index: 998;
+        box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16), 0 8px 24px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .chatbot-container.open {
+        display: flex;
+      }
+
+      .chatbot-header {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(135deg, var(--red), var(--red2));
+      }
+
+      .chatbot-header h3 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .chatbot-header p {
+        margin: 4px 0 0 0;
+        font-size: 12px;
+        opacity: 0.9;
+      }
+
+      .chatbot-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .chat-message {
+        display: flex;
+        gap: 8px;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .chat-message.user {
+        justify-content: flex-end;
+      }
+
+      .chat-bubble {
+        max-width: 70%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        line-height: 1.4;
+        word-break: break-word;
+      }
+
+      .chat-message.bot .chat-bubble {
+        background: var(--bg);
+        color: var(--white);
+        border: 1px solid var(--border);
+      }
+
+      .chat-message.user .chat-bubble {
+        background: var(--red);
+        color: white;
+      }
+
+      .chatbot-input {
+        display: flex;
+        gap: 8px;
+        padding: 12px;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+      }
+
+      .chatbot-input input {
+        flex: 1;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--white);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-family: inherit;
+      }
+
+      .chatbot-input input::placeholder {
+        color: var(--dim);
+      }
+
+      .chatbot-input input:focus {
+        outline: none;
+        border-color: var(--red);
+      }
+
+      .chatbot-input button {
+        background: var(--red);
+        border: none;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.2s;
+      }
+
+      .chatbot-input button:hover {
+        background: var(--red2);
+      }
+
+      .chatbot-input button:active {
+        transform: scale(0.95);
+      }
+
+      .chat-loading {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+
+      .chat-loading span {
+        width: 6px;
+        height: 6px;
+        background: var(--white);
+        border-radius: 50%;
+        animation: bounce 1.2s infinite;
+      }
+
+      .chat-loading span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .chat-loading span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes bounce {
+        0%, 80%, 100% {
+          opacity: 0.3;
+          transform: translateY(0);
+        }
+        40% {
+          opacity: 1;
+          transform: translateY(-8px);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chatbot-container {
+          width: calc(100vw - 48px);
+          height: 400px;
+          bottom: 88px;
+        }
+
+        .chat-bubble {
+          max-width: 85%;
+        }
+      }
+
+      /* ─── DSA PROBLEM SOLVER ─── */
+      .dsa-section {
+        margin-top: 60px;
+      }
+
+      .dsa-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .dsa-folders {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        max-height: 600px;
+        overflow-y: auto;
+      }
+
+      .dsa-folder-item {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--dim);
+      }
+
+      .dsa-folder-item:hover {
+        background: rgba(230, 57, 70, 0.1);
+        color: var(--red);
+        padding-left: 24px;
+      }
+
+      .dsa-folder-item.active {
+        background: rgba(230, 57, 70, 0.2);
+        color: var(--red);
+        border-left: 3px solid var(--red);
+        padding-left: 13px;
+        font-weight: 600;
+      }
+
+      .dsa-folder-icon {
+        font-size: 16px;
+      }
+
+      .dsa-content {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 600px;
+      }
+
+      .dsa-problems-header {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        font-weight: 600;
+        color: var(--red);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .dsa-problems-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0;
+      }
+
+      .dsa-problem-item {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        color: var(--dim);
+      }
+
+      .dsa-problem-item:hover {
+        background: rgba(230, 57, 70, 0.1);
+        color: var(--white);
+        padding-left: 24px;
+      }
+
+      .dsa-problem-item.active {
+        background: rgba(230, 57, 70, 0.15);
+        color: var(--red);
+        font-weight: 600;
+      }
+
+      .dsa-problem-icon {
+        font-size: 12px;
+      }
+
+      .dsa-code-viewer {
+        padding: 16px;
+        background: var(--bg);
+        flex: 1;
+        overflow-y: auto;
+        border-radius: 8px;
+        margin: 0;
+      }
+
+      .dsa-code-viewer pre {
+        margin: 0;
+        padding: 12px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--white);
+      }
+
+      .dsa-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: var(--dim);
+        text-align: center;
+        padding: 40px;
+        font-size: 14px;
+      }
+
+      .dsa-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: var(--dim);
+        gap: 8px;
+      }
+
+      .dsa-loading span {
+        width: 4px;
+        height: 4px;
+        background: var(--red);
+        border-radius: 50%;
+        animation: bounce 1.2s infinite;
+      }
+
+      .dsa-loading span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .dsa-loading span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes bounce {
+        0%, 80%, 100% {
+          opacity: 0.3;
+          transform: translateY(0);
+        }
+        40% {
+          opacity: 1;
+          transform: translateY(-8px);
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .dsa-container {
+          grid-template-columns: 1fr;
+        }
+
+        .dsa-folders {
+          max-height: 300px;
+        }
+
+        .dsa-content {
+          min-height: 400px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .dsa-folder-item,
+        .dsa-problem-item {
+          font-size: 12px;
+          padding: 12px;
+        }
+
+        .dsa-code-viewer pre {
+          font-size: 11px;
+        }
+      }
     </style>
   </head>
 
@@ -1910,7 +2320,7 @@
           </blockquote>
           <div class="hero-btns">
             <a href="#projects" class="btn-fill">View My Work</a>
-            <a href="#contact" class="btn-outline">Let's Connect</a>
+            <a href="#audio-resume-card" class="btn-outline">Audio Resume</a>
             <a href="Devanshu_Kumar_Resume.pdf" class="btn-outline" download>Download Resume</a>
           </div>
         </div>
@@ -2484,7 +2894,7 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
                 vajraCognixia.in
               </a>
             </div>
-            <div class="audio-resume-card">
+            <div class="audio-resume-card" id="audio-resume-card">
               <h3>Audio Resume</h3>
               <p>Listen to a short spoken introduction about my skills, projects, and goals. Works best in modern browsers with speech synthesis support.</p>
               <button type="button" id="audioResumeBtn" class="btn-outline">Play Audio Resume</button>
@@ -2536,6 +2946,20 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
     <div id="imageModal" class="modal">
       <span class="modal-close">&times;</span>
       <img class="modal-content" id="modalImg" />
+    </div>
+
+    <!-- CHATBOT -->
+    <button class="chatbot-btn" id="chatbotBtn" aria-label="Open Chatbot">💬</button>
+    <div class="chatbot-container" id="chatbotContainer">
+      <div class="chatbot-header">
+        <h3>AI Assistant</h3>
+        <p>Ask me about Devanshu's skills & projects</p>
+      </div>
+      <div class="chatbot-messages" id="chatMessages"></div>
+      <div class="chatbot-input">
+        <input type="text" id="userInput" placeholder="Ask me anything..." />
+        <button id="sendBtn">Send</button>
+      </div>
     </div>
 
     <script>
@@ -3071,6 +3495,36 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
         typeWriter();
       }, 2500);
 
+      /* ── KEYBOARD NAVIGATION ── */
+      document.addEventListener('keydown', (e) => {
+        // Only trigger if no input is focused
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+          return;
+        }
+
+        const key = e.key.toLowerCase();
+
+        if (key === 'g') {
+          const githubSection = document.getElementById('github-repos');
+          if (githubSection) {
+            e.preventDefault();
+            githubSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else if (key === 'p') {
+          const projectsSection = document.getElementById('projects');
+          if (projectsSection) {
+            e.preventDefault();
+            projectsSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else if (key === 'c') {
+          const contactSection = document.getElementById('contact');
+          if (contactSection) {
+            e.preventDefault();
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+
       /* ── THEME TOGGLE ── */
       const themeToggle = document.getElementById('themeToggle');
       const themes = ['', 'theme-blue', 'theme-green', 'theme-purple'];
@@ -3088,6 +3542,159 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
         document.body.className = savedTheme;
         currentTheme = themes.indexOf(savedTheme);
       }
+
+      /* ── AI CHATBOT ── */
+      const chatbotBtn = document.getElementById('chatbotBtn');
+      const chatbotContainer = document.getElementById('chatbotContainer');
+      const chatMessages = document.getElementById('chatMessages');
+      const userInput = document.getElementById('userInput');
+      const sendBtn = document.getElementById('sendBtn');
+
+      // Knowledge base about Devanshu
+      const knowledgeBase = {
+        skills: "Devanshu is proficient in HTML, CSS, JavaScript, React, Python, Firebase, and SQL. He specializes in full-stack web development with expertise in both frontend and backend technologies.",
+        projects: "Devanshu has worked on various projects including web applications, mobile apps, and data analysis projects. His portfolio showcases projects built with React, Firebase, and Python.",
+        experience: "Devanshu Dhyanu is a B.Tech Computer Science student at Lovely Professional University (LPU). He's also a national handball athlete with a passion for combining sports and technology.",
+        education: "Devanshu is pursuing a Bachelor's degree in Computer Science at Lovely Professional University (LPU) in Phagwara, Punjab.",
+        achievements: "Devanshu is a national handball athlete and has achieved recognition in both academics and sports. He has certifications in various programming languages and technologies.",
+        contact: "You can reach Devanshu via email at devanshudhyanu0813@gmail.com or connect on LinkedIn at linkedin.com/in/devanshudhyanu and GitHub at github.com/Devanshu-Dhyanu.",
+        sports: "Devanshu is a national handball athlete, showcasing his commitment to both technical excellence and physical fitness.",
+        location: "Devanshu is based in Phagwara, Punjab and studies at Lovely Professional University.",
+      };
+
+      // Common questions mapping
+      const commonQuestions = {
+        "what are your skills": knowledgeBase.skills,
+        "what can you do": knowledgeBase.skills,
+        "what technologies do you use": knowledgeBase.skills,
+        "tell me about your projects": knowledgeBase.projects,
+        "what projects have you done": knowledgeBase.projects,
+        "what have you built": knowledgeBase.projects,
+        "tell me about your experience": knowledgeBase.experience,
+        "which university": knowledgeBase.education,
+        "where do you study": knowledgeBase.education,
+        "what is your educational background": knowledgeBase.education,
+        "what are your achievements": knowledgeBase.achievements,
+        "are you on github": "Yes! You can find Devanshu's projects on GitHub at github.com/Devanshu-Dhyanu",
+        "how to contact you": knowledgeBase.contact,
+        "what is your email": "You can reach Devanshu at devanshudhyanu0813@gmail.com",
+        "are you on linkedin": "Connect with Devanshu on LinkedIn at linkedin.com/in/devanshudhyanu",
+        "what is your interest": "Devanshu is passionate about full-stack web development, creating polished user interfaces, and building real-world applications.",
+        "are you athlete": knowledgeBase.sports,
+        "sports": knowledgeBase.sports,
+        "handball": "Yes! Devanshu is a national handball athlete.",
+        "where are you from": knowledgeBase.location,
+      };
+
+      // Fallback responses
+      const fallbackResponses = [
+        "That's an interesting question! I'm an AI assistant here to help answer questions about Devanshu's skills, projects, and experience.",
+        "I don't have specific information about that, but feel free to ask me about Devanshu's technical skills, projects, or contact information!",
+        "Could you rephrase that? Try asking about skills, projects, experience, or contact information.",
+        "I'm here to help! Ask me anything about Devanshu's professional background and expertise."
+      ];
+
+      function findAnswer(question) {
+        const lowerQuestion = question.toLowerCase().trim();
+        
+        // Check for exact or partial matches in common questions
+        for (const [key, answer] of Object.entries(commonQuestions)) {
+          if (lowerQuestion.includes(key)) {
+            return answer;
+          }
+        }
+
+        // Check if question contains keywords from knowledge base
+        for (const [key, value] of Object.entries(knowledgeBase)) {
+          if (lowerQuestion.includes(key)) {
+            return value;
+          }
+        }
+
+        // Return random fallback response
+        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      }
+
+      function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}`;
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble';
+        bubble.textContent = text;
+        
+        messageDiv.appendChild(bubble);
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function showTyping() {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message bot';
+        messageDiv.id = 'typingIndicator';
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble chat-loading';
+        bubble.innerHTML = '<span></span><span></span><span></span>';
+        
+        messageDiv.appendChild(bubble);
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function removeTyping() {
+        const typing = document.getElementById('typingIndicator');
+        if (typing) typing.remove();
+      }
+
+      function handleMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        addMessage(message, 'user');
+        userInput.value = '';
+
+        // Show typing indicator
+        showTyping();
+
+        // Simulate API delay
+        setTimeout(() => {
+          removeTyping();
+          const response = findAnswer(message);
+          addMessage(response, 'bot');
+        }, 500);
+      }
+
+      // Event listeners
+      chatbotBtn.addEventListener('click', () => {
+        chatbotContainer.classList.toggle('open');
+        chatbotBtn.classList.toggle('active');
+        
+        if (chatbotContainer.classList.contains('open')) {
+          // Add welcome message on first open
+          if (chatMessages.children.length === 0) {
+            addMessage('Hi! I\'m Devanshu\'s AI Assistant. Ask me anything about his skills, projects, or how to contact him! 🚀', 'bot');
+          }
+          userInput.focus();
+        }
+      });
+
+      sendBtn.addEventListener('click', handleMessage);
+      userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleMessage();
+      });
+
+      // Close chatbot when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!chatbotContainer.contains(e.target) && !chatbotBtn.contains(e.target)) {
+          if (chatbotContainer.classList.contains('open')) {
+            chatbotContainer.classList.remove('open');
+            chatbotBtn.classList.remove('active');
+          }
+        }
+      });
+
     </script>
   </body>
 </html>
