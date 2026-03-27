@@ -1,1534 +1,2862 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Devanshu Dhyanu</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Rajdhani:wght@600;700&display=swap"
-    rel="stylesheet">
-  <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg: #050507;
-      --bg2: #0a0a0f;
-      --red: #e63946;
-      --red2: #ff6b6b;
-      --gold: #c9a227;
-      --gold2: #f0d060;
-      --white: #f0f0f0;
-      --dim: rgba(240, 240, 240, 0.4);
-      --border: rgba(255, 255, 255, 0.07);
-    }
-
-    html {
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* ─── CURSOR ─── */
-    #cur {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      background: var(--red);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width .2s, height .2s, background .2s;
-    }
-
-    #cur2 {
-      position: fixed;
-      width: 32px;
-      height: 32px;
-      border: 1px solid rgba(230, 57, 70, 0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: all .08s linear;
-    }
-
-    body:has(a:hover) #cur {
-      width: 16px;
-      height: 16px;
-      background: var(--gold);
-    }
-
-    body:has(a:hover) #cur2 {
-      width: 48px;
-      height: 48px;
-      border-color: rgba(201, 162, 39, 0.5);
-    }
-
-    /* ─── NOISE OVERLAY ─── */
-    .noise {
-      position: fixed;
-      inset: 0;
-      z-index: 9990;
-      pointer-events: none;
-      opacity: .03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 200px;
-    }
-
-    /* ─── CANVAS PARTICLES ─── */
-    #canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* ─── INTRO OVERLAY ─── */
-    #intro {
-      position: fixed;
-      inset: 0;
-      z-index: 8000;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      transition: opacity 0.8s ease, visibility 0.8s;
-    }
-
-    #intro.hide {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .intro-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 12vw, 9rem);
-      letter-spacing: 0.08em;
-      overflow: hidden;
-      display: flex;
-    }
-
-    .intro-letter {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(100%);
-      animation: letterIn 0.06s forwards;
-    }
-
-    .intro-sub {
-      font-size: 0.7rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-top: 12px;
-      opacity: 0;
-      animation: fadeIn 0.5s 1.4s forwards;
-    }
-
-    .intro-line {
-      width: 0;
-      height: 1px;
-      background: var(--red);
-      margin-top: 20px;
-      animation: lineGrow 0.6s 1.2s forwards;
-    }
-
-    @keyframes letterIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Devanshu Dhyanu - Full Stack Developer, B.Tech CS Student at LPU, National Handball Athlete. Portfolio showcasing projects, skills, and achievements." />
+    <meta name="keywords" content="Devanshu Dhyanu, full stack developer, LPU, handball athlete, portfolio, web development, Firebase, React, Python" />
+    <meta name="author" content="Devanshu Dhyanu" />
+    <meta property="og:title" content="Devanshu Dhyanu - Full Stack Developer & National Handball Athlete" />
+    <meta property="og:description" content="Explore my portfolio: projects, skills, certifications, and achievements in web development and sports." />
+    <meta property="og:image" content="me.jpeg" />
+    <meta property="og:url" content="https://yourwebsite.com" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Devanshu Dhyanu</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Rajdhani:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-    }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
+      :root {
+        --bg: #050507;
+        --bg2: #0a0a0f;
+        --red: #e63946;
+        --red2: #ff6b6b;
+        --gold: #c9a227;
+        --gold2: #f0d060;
+        --white: #f0f0f0;
+        --dim: rgba(240, 240, 240, 0.4);
+        --border: rgba(255, 255, 255, 0.07);
       }
-    }
 
-    @keyframes lineGrow {
-      to {
-        width: 200px;
+      .theme-blue {
+        --red: #007bff;
+        --red2: #0056b3;
+        --gold: #28a745;
+        --gold2: #20c997;
       }
-    }
 
-    /* ─── MAIN CONTENT ─── */
-    main {
-      position: relative;
-      z-index: 10;
-    }
+      .theme-green {
+        --red: #28a745;
+        --red2: #20c997;
+        --gold: #ffc107;
+        --gold2: #fd7e14;
+      }
 
-    /* ─── NAVBAR ─── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 20px 5vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(5, 5, 7, 0.9), transparent);
-      backdrop-filter: blur(0px);
-      opacity: 0;
-      animation: fadeIn 0.5s 2.2s forwards;
-    }
+      .theme-purple {
+        --red: #6f42c1;
+        --red2: #e83e8c;
+        --gold: #fd7e14;
+        --gold2: #ffc107;
+      }
 
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.12em;
-      color: var(--white);
-    }
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
 
-    .nav-logo span {
-      color: var(--red);
-    }
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--red);
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 10000;
+        transition: top 0.3s;
+      }
 
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+      .skip-link:focus {
+        top: 6px;
+      }
 
-    .nav-links a {
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--dim);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
+      body {
+        background: var(--bg);
+        color: var(--white);
+        font-family: "DM Sans", sans-serif;
+        overflow-x: hidden;
+        cursor: none;
+      }
 
-    .nav-links a:hover {
-      color: var(--red);
-    }
+      /* ─── CURSOR ─── */
+      #cur {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--red);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s, height 0.2s, background 0.2s;
+      }
 
-    .nav-cta {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 8px 20px;
-      border: 1px solid var(--red);
-      color: var(--red);
-      text-decoration: none;
-      transition: all 0.3s;
-      border-radius: 1px;
-    }
+      #cur2 {
+        position: fixed;
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(230, 57, 70, 0.5);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: all 0.08s linear;
+      }
 
-    .nav-cta:hover {
-      background: var(--red);
-      color: #fff;
-    }
+      body:has(a:hover) #cur {
+        width: 16px;
+        height: 16px;
+        background: var(--gold);
+      }
 
-    @media(max-width:768px) {
+      body:has(a:hover) #cur2 {
+        width: 48px;
+        height: 48px;
+        border-color: rgba(201, 162, 39, 0.5);
+      }
+
+      /* ─── NOISE OVERLAY ─── */
+      .noise {
+        position: fixed;
+        inset: 0;
+        z-index: 9990;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 200px;
+      }
+
+      /* ─── CANVAS PARTICLES ─── */
+      #canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* ─── INTRO OVERLAY ─── */
+      #intro {
+        position: fixed;
+        inset: 0;
+        z-index: 8000;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition: opacity 0.8s ease, visibility 0.8s;
+      }
+
+      #intro.hide {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .intro-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(3rem, 12vw, 9rem);
+        letter-spacing: 0.08em;
+        overflow: hidden;
+        display: flex;
+      }
+
+      .intro-letter {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(100%);
+        animation: letterIn 0.06s forwards;
+      }
+
+      .intro-sub {
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-top: 12px;
+        opacity: 0;
+        animation: fadeIn 0.5s 1.4s forwards;
+      }
+
+      .intro-line {
+        width: 0;
+        height: 1px;
+        background: var(--red);
+        margin-top: 20px;
+        animation: lineGrow 0.6s 1.2s forwards;
+      }
+
+      @keyframes letterIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes lineGrow {
+        to {
+          width: 200px;
+        }
+      }
+
+      /* ─── MAIN CONTENT ─── */
+      main {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* ─── NAVBAR ─── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 20px 5vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to bottom, rgba(5, 5, 7, 0.9), transparent);
+        backdrop-filter: blur(0px);
+        opacity: 0;
+        animation: fadeIn 0.5s 2.2s forwards;
+      }
+
+      .nav-logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 0.12em;
+        color: var(--white);
+      }
+
+      .nav-logo span {
+        color: var(--red);
+      }
+
       .nav-links {
-        display: none;
+        display: flex;
+        gap: 32px;
+        list-style: none;
       }
-    }
 
-    /* ─── HERO ─── */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      min-height: 600px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: flex-end;
-      overflow: hidden;
-    }
+      .nav-links a {
+        font-size: 0.65rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--dim);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
 
-    @media(max-width:768px) {
+      .nav-links a:hover {
+        color: var(--red);
+      }
+
+      .nav-links a.active {
+        color: var(--red);
+        font-weight: 600;
+      }
+
+      .nav-cta {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 8px 20px;
+        border: 1px solid var(--red);
+        color: var(--red);
+        text-decoration: none;
+        transition: all 0.3s;
+        border-radius: 1px;
+      }
+
+      .nav-cta:hover {
+        background: var(--red);
+        color: #fff;
+      }
+
+      .theme-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--dim);
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.3s;
+        margin-right: 16px;
+      }
+
+      .theme-btn:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+      }
+
+      /* ─── SCROLL PROGRESS ─── */
+      #scrollProgress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+      }
+
+      #scrollProgressBar {
+        height: 100%;
+        background: var(--red);
+        width: 0%;
+        transition: width 0.1s ease;
+      }
+
+      /* ─── HERO ─── */
       .hero {
-        grid-template-columns: 1fr;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 600px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: flex-end;
+        overflow: hidden;
       }
-    }
 
-    /* Photo side */
-    .hero-photo {
-      position: relative;
-      height: 100%;
-      overflow: hidden;
-    }
+      @media (max-width: 768px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    .hero-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      filter: grayscale(30%) contrast(1.1) brightness(0.85);
-      transform: scale(1.08);
-      transition: transform 8s ease;
-    }
-
-    .hero-photo img.loaded {
-      transform: scale(1);
-    }
-
-    /* Red tint */
-    .hero-photo::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(230, 57, 70, 0.15), transparent 60%),
-        linear-gradient(to right, transparent 60%, rgba(5, 5, 7, 0.95));
-      pointer-events: none;
-    }
-
-    /* Bottom fade */
-    .hero-photo::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40%;
-      background: linear-gradient(to top, var(--bg), transparent);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Year tag */
-    .photo-year {
-      position: absolute;
-      bottom: 32px;
-      left: 24px;
-      z-index: 2;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Content side */
-    .hero-content {
-      position: relative;
-      padding: 0 5vw 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      height: 100%;
-      z-index: 2;
-    }
-
-    @media(max-width:768px) {
+      /* Photo side */
       .hero-photo {
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .hero-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        filter: grayscale(30%) contrast(1.1) brightness(0.85);
+        transform: scale(1.08);
+        transition: transform 8s ease;
+      }
+
+      .hero-photo img.loaded {
+        transform: scale(1);
+      }
+
+      /* Red tint */
+      .hero-photo::after {
+        content: "";
         position: absolute;
         inset: 0;
-        opacity: 0.25;
+        background: linear-gradient(
+            135deg,
+            rgba(230, 57, 70, 0.15),
+            transparent 60%
+          ),
+          linear-gradient(to right, transparent 60%, rgba(5, 5, 7, 0.95));
+        pointer-events: none;
       }
 
+      /* Bottom fade */
+      .hero-photo::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40%;
+        background: linear-gradient(to top, var(--bg), transparent);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Year tag */
+      .photo-year {
+        position: absolute;
+        bottom: 32px;
+        left: 24px;
+        z-index: 2;
+        font-family: "Rajdhani", sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.25);
+      }
+
+      /* Content side */
       .hero-content {
-        padding: 0 6vw 60px;
+        position: relative;
+        padding: 0 5vw 60px;
+        display: flex;
+        flex-direction: column;
         justify-content: flex-end;
-      }
-    }
-
-    .hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      opacity: 0;
-      animation: fadeIn 0.5s 2.0s forwards;
-    }
-
-    .hero-eyebrow-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--red);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    .hero-eyebrow span {
-      font-size: 0.62rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--red);
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.4);
+        height: 100%;
+        z-index: 2;
       }
 
-      50% {
-        box-shadow: 0 0 0 8px rgba(230, 57, 70, 0);
+      @media (max-width: 768px) {
+        .hero-photo {
+          position: absolute;
+          inset: 0;
+          opacity: 0.25;
+        }
+
+        .hero-content {
+          padding: 0 6vw 60px;
+          justify-content: flex-end;
+        }
       }
-    }
 
-    /* Glitch Name */
-    .glitch-wrap {
-      overflow: hidden;
-      margin-bottom: 10px;
-      opacity: 0;
-      animation: fadeIn 0.5s 2.1s forwards;
-    }
-
-    .glitch-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.5rem, 9vw, 8rem);
-      line-height: 0.88;
-      letter-spacing: 0.04em;
-      position: relative;
-      display: inline-block;
-      color: var(--white);
-    }
-
-    .glitch-name::before,
-    .glitch-name::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: inherit;
-      line-height: inherit;
-      letter-spacing: inherit;
-    }
-
-    .glitch-name::before {
-      color: var(--red);
-      animation: glitch1 4s infinite;
-    }
-
-    .glitch-name::after {
-      color: #00f5ff;
-      animation: glitch2 4s infinite;
-    }
-
-    @keyframes glitch1 {
-
-      0%,
-      95%,
-      100% {
-        clip-path: none;
-        transform: none;
+      .hero-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
         opacity: 0;
+        animation: fadeIn 0.5s 2s forwards;
       }
 
-      96% {
-        clip-path: inset(20% 0 60% 0);
-        transform: translate(-3px, 0);
-        opacity: 0.8;
+      .hero-eyebrow-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--red);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
       }
 
-      97% {
-        clip-path: inset(60% 0 10% 0);
-        transform: translate(3px, 0);
-        opacity: 0.8;
+      .hero-eyebrow span {
+        font-size: 0.62rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--red);
       }
 
-      98% {
-        clip-path: inset(40% 0 30% 0);
-        transform: translate(-2px, 0);
-        opacity: 0.8;
+      #typewriter::after {
+        content: '|';
+        animation: blink 1s infinite;
       }
 
-      99% {
-        clip-path: none;
-        transform: none;
+      @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.4);
+        }
+
+        50% {
+          box-shadow: 0 0 0 8px rgba(230, 57, 70, 0);
+        }
+      }
+
+      /* Glitch Name */
+      .glitch-wrap {
+        overflow: hidden;
+        margin-bottom: 10px;
         opacity: 0;
+        animation: fadeIn 0.5s 2.1s forwards;
       }
-    }
 
-    @keyframes glitch2 {
+      .glitch-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(3.5rem, 9vw, 8rem);
+        line-height: 0.88;
+        letter-spacing: 0.04em;
+        position: relative;
+        display: inline-block;
+        color: var(--white);
+      }
 
-      0%,
-      96%,
-      100% {
-        clip-path: none;
-        transform: none;
+      .glitch-name::before,
+      .glitch-name::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+      }
+
+      .glitch-name::before {
+        color: var(--red);
+        animation: glitch1 4s infinite;
+      }
+
+      .glitch-name::after {
+        color: #00f5ff;
+        animation: glitch2 4s infinite;
+      }
+
+      @keyframes glitch1 {
+        0%,
+        95%,
+        100% {
+          clip-path: none;
+          transform: none;
+          opacity: 0;
+        }
+
+        96% {
+          clip-path: inset(20% 0 60% 0);
+          transform: translate(-3px, 0);
+          opacity: 0.8;
+        }
+
+        97% {
+          clip-path: inset(60% 0 10% 0);
+          transform: translate(3px, 0);
+          opacity: 0.8;
+        }
+
+        98% {
+          clip-path: inset(40% 0 30% 0);
+          transform: translate(-2px, 0);
+          opacity: 0.8;
+        }
+
+        99% {
+          clip-path: none;
+          transform: none;
+          opacity: 0;
+        }
+      }
+
+      @keyframes glitch2 {
+        0%,
+        96%,
+        100% {
+          clip-path: none;
+          transform: none;
+          opacity: 0;
+        }
+
+        97% {
+          clip-path: inset(10% 0 70% 0);
+          transform: translate(4px, 0);
+          opacity: 0.6;
+        }
+
+        98% {
+          clip-path: inset(65% 0 5% 0);
+          transform: translate(-4px, 0);
+          opacity: 0.6;
+        }
+
+        99% {
+          clip-path: none;
+          transform: none;
+          opacity: 0;
+        }
+      }
+
+      .name-red {
+        color: var(--red);
+      }
+
+      .hero-role {
+        font-family: "Rajdhani", sans-serif;
+        font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--dim);
+        margin-bottom: 24px;
         opacity: 0;
+        animation: fadeIn 0.5s 2.2s forwards;
       }
 
-      97% {
-        clip-path: inset(10% 0 70% 0);
-        transform: translate(4px, 0);
-        opacity: 0.6;
+      .hero-role span {
+        color: var(--gold);
       }
 
-      98% {
-        clip-path: inset(65% 0 5% 0);
-        transform: translate(-4px, 0);
-        opacity: 0.6;
-      }
-
-      99% {
-        clip-path: none;
-        transform: none;
+      .hero-quote {
+        font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+        font-style: italic;
+        font-weight: 300;
+        color: rgba(240, 240, 240, 0.35);
+        border-left: 2px solid var(--red);
+        padding-left: 14px;
+        max-width: 320px;
+        line-height: 1.6;
+        margin-bottom: 36px;
         opacity: 0;
+        animation: fadeIn 0.5s 2.3s forwards;
       }
-    }
 
-    .name-red {
-      color: var(--red);
-    }
+      .hero-btns {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeIn 0.5s 2.4s forwards;
+      }
 
-    .hero-role {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeIn 0.5s 2.2s forwards;
-    }
+      .btn-fill {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 12px 30px;
+        background: var(--red);
+        color: #fff;
+        border: none;
+        border-radius: 1px;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.2s;
+        cursor: none;
+        position: relative;
+        overflow: hidden;
+      }
 
-    .hero-role span {
-      color: var(--gold);
-    }
+      .btn-fill::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-100%);
+        transition: transform 0.4s;
+      }
 
-    .hero-quote {
-      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
-      font-style: italic;
-      font-weight: 300;
-      color: rgba(240, 240, 240, 0.35);
-      border-left: 2px solid var(--red);
-      padding-left: 14px;
-      max-width: 320px;
-      line-height: 1.6;
-      margin-bottom: 36px;
-      opacity: 0;
-      animation: fadeIn 0.5s 2.3s forwards;
-    }
+      .btn-fill:hover::after {
+        transform: translateX(0);
+      }
 
-    .hero-btns {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeIn 0.5s 2.4s forwards;
-    }
+      .btn-fill:hover {
+        transform: translateY(-2px);
+      }
 
-    .btn-fill {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      padding: 12px 30px;
-      background: var(--red);
-      color: #fff;
-      border: none;
-      border-radius: 1px;
-      text-decoration: none;
-      transition: background 0.3s, transform 0.2s;
-      cursor: none;
-      position: relative;
-      overflow: hidden;
-    }
+      .btn-outline {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 12px 30px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--dim);
+        border-radius: 1px;
+        text-decoration: none;
+        transition: all 0.3s;
+        cursor: none;
+      }
 
-    .btn-fill::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateX(-100%);
-      transition: transform 0.4s;
-    }
+      .btn-outline:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
 
-    .btn-fill:hover::after {
-      transform: translateX(0);
-    }
+      /* scroll indicator */
+      .scroll-hint {
+        position: absolute;
+        bottom: 28px;
+        right: 5vw;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: fadeIn 0.5s 2.8s forwards;
+      }
 
-    .btn-fill:hover {
-      transform: translateY(-2px);
-    }
+      .scroll-hint span {
+        font-size: 0.55rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.2);
+        writing-mode: vertical-rl;
+      }
 
-    .btn-outline {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      padding: 12px 30px;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--dim);
-      border-radius: 1px;
-      text-decoration: none;
-      transition: all 0.3s;
-      cursor: none;
-    }
+      .scroll-line {
+        width: 1px;
+        height: 50px;
+        background: linear-gradient(to bottom, var(--red), transparent);
+        animation: scrollPulse 2s infinite;
+      }
 
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
 
-    /* scroll indicator */
-    .scroll-hint {
-      position: absolute;
-      bottom: 28px;
-      right: 5vw;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeIn 0.5s 2.8s forwards;
-    }
+        50% {
+          transform: scaleY(0.5);
+          opacity: 0.4;
+        }
+      }
 
-    .scroll-hint span {
-      font-size: 0.55rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.2);
-      writing-mode: vertical-rl;
-    }
+      /* ─── STATS ─── */
+      .stats {
+        position: relative;
+        z-index: 10;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: var(--bg2);
+      }
 
-    .scroll-line {
-      width: 1px;
-      height: 50px;
-      background: linear-gradient(to bottom, var(--red), transparent);
-      animation: scrollPulse 2s infinite;
-    }
+      @media (max-width: 600px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
 
-    @keyframes scrollPulse {
+      .stat {
+        padding: 28px 24px;
+        border-right: 1px solid var(--border);
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+      }
 
-      0%,
-      100% {
-        transform: scaleY(1);
+      .stat:last-child {
+        border-right: none;
+      }
+
+      .stat:hover {
+        background: #0f0f14;
+      }
+
+      .stat::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--red);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+
+      .stat:hover::before {
+        transform: scaleX(1);
+      }
+
+      .stat-n {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.2rem;
+        color: var(--red);
+        line-height: 1;
+      }
+
+      .stat-l {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.3);
+        margin-top: 4px;
+      }
+
+      /* ─── ACHIEVEMENT BADGES ─── */
+      .badges {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px 20px;
+        flex-wrap: wrap;
+      }
+
+      .badge {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        transition: all 0.3s;
+        cursor: pointer;
+        min-width: 120px;
+      }
+
+      .badge:hover {
+        transform: translateY(-5px);
+        border-color: var(--red);
+        box-shadow: 0 10px 30px rgba(230, 57, 70, 0.2);
+      }
+
+      .badge-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+        animation: bounce 2s infinite;
+      }
+
+      .badge-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 4px;
+        text-align: center;
+      }
+
+      .badge-desc {
+        font-size: 0.7rem;
+        color: var(--dim);
+        text-align: center;
+      }
+
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-5px); }
+        60% { transform: translateY(-3px); }
+      }
+
+      /* ─── SECTIONS ─── */
+      section {
+        position: relative;
+        z-index: 10;
+        padding: 90px 5vw;
+      }
+
+      .s-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .s-label::after {
+        content: "";
+        flex: 1;
+        max-width: 50px;
+        height: 1px;
+        background: var(--red);
+        opacity: 0.4;
+      }
+
+      .s-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 0.9;
+        letter-spacing: 0.04em;
+        margin-bottom: 48px;
+      }
+
+      .s-title span {
+        color: var(--red);
+      }
+
+      /* ─── ABOUT ─── */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+
+      @media (max-width: 768px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+      }
+
+      .about-text p {
+        font-size: 0.88rem;
+        line-height: 1.85;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 16px;
+      }
+
+      .about-text strong {
+        color: var(--white);
+      }
+
+      .about-photo-wrap {
+        position: relative;
+      }
+
+      .about-photo-wrap img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        object-position: top;
+        filter: grayscale(20%) contrast(1.1);
+        border: 1px solid var(--border);
+      }
+
+      .about-photo-wrap::before {
+        content: "";
+        position: absolute;
+        inset: -10px;
+        border: 1px solid rgba(230, 57, 70, 0.2);
+        z-index: -1;
+      }
+
+      .about-photo-wrap::after {
+        content: "DEVANSHU DHYANU";
+        position: absolute;
+        bottom: -16px;
+        right: -16px;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 4rem;
+        color: rgba(230, 57, 70, 0.05);
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+        z-index: -1;
+      }
+
+      /* ─── SKILLS ─── */
+      .skills-section {
+        background: var(--bg2);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+      }
+
+      @media (max-width: 700px) {
+        .skills-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 400px) {
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .sk-card {
+        background: var(--bg2);
+        padding: 30px 24px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+      }
+
+      .sk-card:hover {
+        background: #0f0f14;
+      }
+
+      .sk-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(to right, var(--red), var(--gold));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+
+      .sk-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .sk-icon {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+      }
+
+      .sk-name {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+
+      .sk-desc {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.35);
+        line-height: 1.6;
+      }
+
+      .sk-bar {
+        height: 2px;
+        background: rgba(255, 255, 255, 0.06);
+        margin-top: 14px;
+        border-radius: 1px;
+        overflow: hidden;
+      }
+
+      .sk-fill {
+        height: 100%;
+        background: linear-gradient(to right, var(--red), var(--gold));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .sk-fill.on {
+        transform: scaleX(1);
+      }
+
+      /* ─── CERTIFICATIONS ─── */
+      .certs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      @media (max-width: 768px) {
+        .certs-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 500px) {
+        .certs-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .cert-card {
+        background: var(--bg2);
+        padding: 20px;
+        border: 1px solid var(--border);
+        text-align: center;
+        transition: background 0.3s, border-color 0.3s;
+      }
+
+      .cert-card:hover {
+        background: #0f0f14;
+        border-color: var(--red);
+      }
+
+      .cert-card img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .cert-card:hover img {
+        transform: scale(2);
+      }
+
+      .cert-name {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .cert-issuer {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* ─── EDUCATION TIMELINE ─── */
+      .timeline {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--red);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 40px;
+        padding-left: 60px;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 12px;
+        top: 10px;
+        width: 16px;
+        height: 16px;
+        background: var(--red);
+        border-radius: 50%;
+        border: 3px solid var(--bg);
+      }
+
+      .timeline-content h3 {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+        color: var(--white);
+      }
+
+      .timeline-content p {
+        font-size: 0.85rem;
+        color: var(--dim);
+        margin-bottom: 2px;
+      }
+
+      .timeline-content span {
+        font-size: 0.75rem;
+        color: var(--gold);
+      }
+
+      /* ─── TESTIMONIALS ─── */
+      .testimonials-carousel {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+
+      .carousel-container {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .testimonial-card {
+        min-width: 100%;
+        background: var(--bg2);
+        padding: 24px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        text-align: center;
+        transition: background 0.3s, border-color 0.3s;
+        box-sizing: border-box;
+      }
+
+      .testimonial-card.active {
         opacity: 1;
       }
 
-      50% {
-        transform: scaleY(0.5);
-        opacity: 0.4;
+      .testimonial-card:not(.active) {
+        opacity: 0.5;
       }
-    }
 
-    /* ─── STATS ─── */
-    .stats {
-      position: relative;
-      z-index: 10;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--bg2);
-    }
-
-    @media(max-width:600px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
+      .testimonial-card:hover {
+        background: #0f0f14;
+        border-color: var(--red);
       }
-    }
 
-    .stat {
-      padding: 28px 24px;
-      border-right: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-
-    .stat:last-child {
-      border-right: none;
-    }
-
-    .stat:hover {
-      background: #0f0f14;
-    }
-
-    .stat::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--red);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s;
-    }
-
-    .stat:hover::before {
-      transform: scaleX(1);
-    }
-
-    .stat-n {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.2rem;
-      color: var(--red);
-      line-height: 1;
-    }
-
-    .stat-l {
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.3);
-      margin-top: 4px;
-    }
-
-    /* ─── SECTIONS ─── */
-    section {
-      position: relative;
-      z-index: 10;
-      padding: 90px 5vw;
-    }
-
-    .s-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .s-label::after {
-      content: '';
-      flex: 1;
-      max-width: 50px;
-      height: 1px;
-      background: var(--red);
-      opacity: 0.4;
-    }
-
-    .s-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      line-height: 0.9;
-      letter-spacing: 0.04em;
-      margin-bottom: 48px;
-    }
-
-    .s-title span {
-      color: var(--red);
-    }
-
-    /* ─── ABOUT ─── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    @media(max-width:768px) {
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 36px;
+      .testimonial-card blockquote {
+        font-style: italic;
+        font-size: 0.9rem;
+        color: var(--dim);
+        margin-bottom: 12px;
       }
-    }
 
-    .about-text p {
-      font-size: 0.88rem;
-      line-height: 1.85;
-      color: rgba(255, 255, 255, 0.5);
-      margin-bottom: 16px;
-    }
-
-    .about-text strong {
-      color: var(--white);
-    }
-
-    .about-photo-wrap {
-      position: relative;
-    }
-
-    .about-photo-wrap img {
-      width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      object-position: top;
-      filter: grayscale(20%) contrast(1.1);
-      border: 1px solid var(--border);
-    }
-
-    .about-photo-wrap::before {
-      content: '';
-      position: absolute;
-      inset: -10px;
-      border: 1px solid rgba(230, 57, 70, 0.2);
-      z-index: -1;
-    }
-
-    .about-photo-wrap::after {
-      content: 'DEVANSHU DHYANU';
-      position: absolute;
-      bottom: -16px;
-      right: -16px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem;
-      color: rgba(230, 57, 70, 0.05);
-      letter-spacing: 0.06em;
-      white-space: nowrap;
-      z-index: -1;
-    }
-
-    /* ─── SKILLS ─── */
-    .skills-section {
-      background: var(--bg2);
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-
-    @media(max-width:700px) {
-      .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .testimonial-card cite {
+        font-size: 0.8rem;
+        color: var(--gold);
+        font-weight: 600;
       }
-    }
 
-    @media(max-width:400px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
+      .carousel-prev, .carousel-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--red);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background 0.3s;
       }
-    }
 
-    .sk-card {
-      background: var(--bg2);
-      padding: 30px 24px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
-    }
-
-    .sk-card:hover {
-      background: #0f0f14;
-    }
-
-    .sk-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(to right, var(--red), var(--gold));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s;
-    }
-
-    .sk-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .sk-icon {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-    }
-
-    .sk-name {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-
-    .sk-desc {
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.35);
-      line-height: 1.6;
-    }
-
-    .sk-bar {
-      height: 2px;
-      background: rgba(255, 255, 255, 0.06);
-      margin-top: 14px;
-      border-radius: 1px;
-      overflow: hidden;
-    }
-
-    .sk-fill {
-      height: 100%;
-      background: linear-gradient(to right, var(--red), var(--gold));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .sk-fill.on {
-      transform: scaleX(1);
-    }
-
-    /* ─── PROJECTS ─── */
-    .proj-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      background: var(--border);
-    }
-
-    .proj-card {
-      background: var(--bg);
-      display: grid;
-      grid-template-columns: 80px 1fr auto;
-      align-items: center;
-      gap: 32px;
-      padding: 36px 32px;
-      border: 1px solid transparent;
-      transition: background 0.3s, border-color 0.3s;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    @media(max-width:600px) {
-      .proj-card {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 24px 20px;
+      .carousel-prev:hover, .carousel-next:hover {
+        background: var(--gold);
       }
-    }
 
-    .proj-card:hover {
-      background: var(--bg2);
-      border-color: rgba(230, 57, 70, 0.25);
-    }
-
-    .proj-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      color: rgba(255, 255, 255, 0.06);
-      line-height: 1;
-    }
-
-    .proj-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 0.04em;
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-
-    .proj-name span {
-      color: var(--red);
-    }
-
-    .proj-desc {
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.4);
-      line-height: 1.6;
-      max-width: 500px;
-    }
-
-    .proj-chips {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-
-    .chip {
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border: 1px solid var(--border);
-      color: rgba(255, 255, 255, 0.3);
-      border-radius: 1px;
-    }
-
-    .proj-arrow {
-      font-size: 1.2rem;
-      color: var(--red);
-      opacity: 0;
-      transition: opacity 0.3s, transform 0.3s;
-    }
-
-    .proj-card:hover .proj-arrow {
-      opacity: 1;
-      transform: translateX(4px);
-    }
-
-    /* ─── SPORTS ─── */
-    .sports-section {
-      background: var(--bg2);
-    }
-
-    .sports-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-
-    @media(max-width:700px) {
-      .sports-grid {
-        grid-template-columns: 1fr;
+      .carousel-prev {
+        left: -60px;
       }
-    }
 
-    .sport-card {
-      background: var(--bg2);
-      padding: 36px 28px;
-      transition: background 0.3s;
-    }
+      .carousel-next {
+        right: -60px;
+      }
 
-    .sport-card:hover {
-      background: #0f0f14;
-    }
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+      }
 
-    .sport-medal {
-      font-size: 2rem;
-      margin-bottom: 14px;
-    }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--border);
+        cursor: pointer;
+        transition: background 0.3s;
+      }
 
-    .sport-title {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold2);
-      margin-bottom: 8px;
-    }
+      .dot.active {
+        background: var(--red);
+      }
 
-    .sport-desc {
-      font-size: 0.72rem;
-      color: rgba(255, 255, 255, 0.38);
-      line-height: 1.65;
-    }
+      /* ─── CODE SNIPPETS ─── */
+      .snippets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+      }
 
-    /* ─── CONTACT ─── */
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
+      .snippet-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
 
-    @media(max-width:768px) {
-      .contact-inner {
+      .snippet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .snippet-lang {
+        font-size: 0.8rem;
+        color: var(--gold);
+        font-weight: 600;
+      }
+
+      .copy-btn {
+        background: var(--red);
+        color: white;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.7rem;
+        transition: background 0.3s;
+      }
+
+      .copy-btn:hover {
+        background: var(--gold);
+      }
+
+      .snippet-card pre {
+        margin: 0;
+        padding: 16px;
+        background: #1e1e1e;
+        overflow-x: auto;
+      }
+
+      .snippet-card code {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      /* ─── CODING STATS ─── */
+      .stats-grid {
+        display: grid;
         grid-template-columns: 1fr;
         gap: 40px;
+        align-items: center;
       }
-    }
 
-    .contact-big {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 0.88;
-      letter-spacing: 0.04em;
-    }
+      @media (max-width: 768px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    .contact-big span {
-      color: var(--red);
-    }
+      .stats-grid p {
+        margin: 0;
+        width: 100%;
+        max-width: 800px;
+        justify-self: center;
+      }
 
-    .contact-sub {
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.35);
-      line-height: 1.8;
-      margin-bottom: 28px;
-      max-width: 360px;
-    }
+      .stats-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .proj-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background: var(--border);
+      }
 
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+      .proj-card {
+        background: var(--bg);
+        display: grid;
+        grid-template-columns: 80px 1fr auto;
+        align-items: center;
+        gap: 32px;
+        padding: 36px 32px;
+        border: 1px solid transparent;
+        transition: background 0.3s, border-color 0.3s;
+        text-decoration: none;
+        color: inherit;
+      }
 
-    .clink {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 15px 20px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
-      text-decoration: none;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      transition: all 0.3s;
-      border-radius: 1px;
-    }
+      @media (max-width: 600px) {
+        .proj-card {
+          grid-template-columns: 1fr;
+          gap: 16px;
+          padding: 24px 20px;
+        }
+      }
 
-    .clink:hover {
-      border-color: var(--red);
-      color: var(--white);
-      background: rgba(230, 57, 70, 0.07);
-      transform: translateX(6px);
-    }
+      .proj-card:hover {
+        background: var(--bg2);
+        border-color: rgba(230, 57, 70, 0.25);
+      }
 
-    .clink-icon {
-      width: 18px;
-      text-align: center;
-      font-style: normal;
-    }
+      .proj-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.06);
+        line-height: 1;
+      }
 
-    /* ─── FOOTER ─── */
-    footer {
-      padding: 22px 5vw;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      z-index: 10;
-    }
+      .proj-image {
+        margin-bottom: 16px;
+      }
 
-    .footer-l {
-      font-size: 0.62rem;
-      letter-spacing: 0.15em;
-      color: rgba(255, 255, 255, 0.18);
-    }
+      .proj-image img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
 
-    .footer-r {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.15em;
-      color: rgba(255, 255, 255, 0.18);
-    }
+      .proj-image img:hover {
+        transform: scale(1.05);
+      }
 
-    .footer-r span {
-      color: var(--red);
-    }
+      .proj-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.8rem;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
 
-    /* ─── SCROLL REVEAL ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s, transform 0.8s;
-    }
+      .proj-name span {
+        color: var(--red);
+      }
 
-    .reveal.on {
-      opacity: 1;
-      transform: none;
-    }
+      .proj-desc {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.4);
+        line-height: 1.6;
+        max-width: 500px;
+      }
 
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-30px);
-      transition: opacity 0.8s, transform 0.8s;
-    }
+      .proj-chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
 
-    .reveal-left.on {
-      opacity: 1;
-      transform: none;
-    }
+      .chip {
+        font-size: 0.58rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 3px 9px;
+        border: 1px solid var(--border);
+        color: rgba(255, 255, 255, 0.3);
+        border-radius: 1px;
+      }
 
-    /* ─── 3D TILT ─── */
-    .tilt {
-      transform-style: preserve-3d;
-      transition: transform 0.1s;
-    }
-  </style>
-</head>
+      .proj-arrow {
+        font-size: 1.2rem;
+        color: var(--red);
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s;
+      }
 
-<body>
+      .proj-card:hover .proj-arrow {
+        opacity: 1;
+        transform: translateX(4px);
+      }
 
-  <div id="cur"></div>
-  <div id="cur2"></div>
-  <div class="noise"></div>
-  <canvas id="canvas"></canvas>
+      /* ─── SPORTS ─── */
+      .sports-section {
+        background: var(--bg2);
+      }
 
-  <!-- INTRO -->
-  <div id="intro">
-    <div class="intro-name" id="introName"></div>
-    <div class="intro-sub">B.Tech CS · LPU · National Handball Athlete</div>
-    <div class="intro-line"></div>
+      .sports-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+      }
+
+      @media (max-width: 700px) {
+        .sports-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .sport-card {
+        background: var(--bg2);
+        padding: 36px 28px;
+        transition: background 0.3s;
+      }
+
+      .sport-card:hover {
+        background: #0f0f14;
+      }
+
+      .sport-medal {
+        font-size: 2rem;
+        margin-bottom: 14px;
+      }
+
+      .sport-title {
+        font-family: "Rajdhani", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--gold2);
+        margin-bottom: 8px;
+      }
+
+      .sport-desc {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.38);
+        line-height: 1.65;
+      }
+
+      /* ─── CONTACT ─── */
+      .contact-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
+
+      @media (max-width: 768px) {
+        .contact-inner {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+      }
+
+      .contact-big {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        line-height: 0.88;
+        letter-spacing: 0.04em;
+      }
+
+      .contact-big span {
+        color: var(--red);
+      }
+
+      .contact-sub {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.35);
+        line-height: 1.8;
+        margin-bottom: 28px;
+        max-width: 360px;
+      }
+
+      .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .clink {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 15px 20px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        transition: all 0.3s;
+        border-radius: 1px;
+      }
+
+      .clink:hover {
+        border-color: var(--red);
+        color: var(--white);
+        background: rgba(230, 57, 70, 0.07);
+        transform: translateX(6px);
+      }
+
+      .clink-icon {
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: normal;
+      }
+
+      /* ─── CONTACT FORM ─── */
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 32px;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--white);
+        border-radius: 1px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.75rem;
+        transition: border-color 0.3s;
+      }
+
+      .contact-form input:focus,
+      .contact-form textarea:focus {
+        outline: none;
+        border-color: var(--red);
+      }
+
+      .contact-form textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .contact-form button {
+        align-self: flex-start;
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        padding: 22px 5vw;
+        border-top: 1px solid var(--border);
+        position: relative;
+        z-index: 10;
+      }
+
+      .footer-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .footer-newsletter {
+        text-align: center;
+      }
+
+      .newsletter-title {
+        font-size: 0.8rem;
+        color: var(--dim);
+        margin-bottom: 8px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .newsletter-form {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .newsletter-form input {
+        padding: 6px 12px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+
+      .newsletter-form input:focus {
+        outline: none;
+        border-color: var(--red);
+      }
+
+      .newsletter-form button {
+        padding: 6px 12px;
+        background: var(--red);
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .newsletter-form button:hover {
+        background: var(--gold);
+      }
+
+      .footer-social {
+        display: flex;
+        gap: 16px;
+      }
+
+      .footer-social a {
+        color: var(--dim);
+        transition: color 0.3s;
+      }
+
+      .footer-social a:hover {
+        color: var(--red);
+      }
+
+      .footer-l {
+        font-size: 0.62rem;
+        letter-spacing: 0.15em;
+        color: rgba(255, 255, 255, 0.18);
+      }
+
+      .footer-r {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.15em;
+        color: rgba(255, 255, 255, 0.18);
+      }
+
+      .footer-r span {
+        color: var(--red);
+      }
+
+      /* ─── BACK TO TOP ─── */
+      .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--red);
+        color: #fff;
+        border: none;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: none;
+        font-size: 1.2rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+        z-index: 1000;
+      }
+
+      .back-to-top.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* ─── MODAL ─── */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-content {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: #fff;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: none;
+      }
+
+      .modal-close:hover {
+        color: var(--red);
+      }
+
+      /* ─── SCROLL REVEAL ─── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s, transform 0.8s;
+      }
+
+      .reveal.on {
+        opacity: 1;
+        transform: none;
+      }
+
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: opacity 0.8s, transform 0.8s;
+      }
+
+      .reveal-left.on {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ─── 3D TILT ─── */
+      .tilt {
+        transform-style: preserve-3d;
+        transition: transform 0.1s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- SKIP LINK -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <div id="cur"></div>
+    <div id="cur2"></div>
+    <div class="noise"></div>
+    <canvas id="canvas"></canvas>
+
+    <!-- INTRO -->
+    <div id="intro">
+      <div class="intro-name" id="introName"></div>
+      <div class="intro-sub">B.Tech CS · LPU · National Handball Athlete</div>
+      <div class="intro-line"></div>
+    </div>
+
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">DEVANSHU<span>.</span>DHYANU</div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="themeToggle" class="theme-btn">🎨</button>
+      <a href="#contact" class="nav-cta">Hire Me</a>
+    </nav>
+
+    <!-- SCROLL PROGRESS -->
+    <div id="scrollProgress">
+      <div id="scrollProgressBar"></div>
+    </div>
+
+    <main id="main">
+      <!-- HERO -->
+      <div class="hero" id="hero">
+        <div class="hero-photo tilt" id="heroPhoto">
+          <img src="me.jpeg" alt="Devanshu Dhyanu" id="heroImg" />
+          <div class="photo-year">2024 — PRESENT</div>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <div class="hero-eyebrow-dot"></div>
+            <span id="typewriter"></span>
+          </div>
+          <div class="glitch-wrap">
+            <div class="glitch-name" data-text="DEVANSHU">DEVANSHU</div>
+          </div>
+          <div class="glitch-wrap" style="animation-delay: 0.1s">
+            <div class="glitch-name name-red" data-text="DHYANU">DHYANU</div>
+          </div>
+          <div class="hero-role">
+            Full Stack Dev <span>·</span> National Handball <span>·</span> LPU
+          </div>
+          <blockquote class="hero-quote">
+            "With great power comes great responsibility." — And with great
+            code, comes great impact.
+          </blockquote>
+          <div class="hero-btns">
+            <a href="#projects" class="btn-fill">View My Work</a>
+            <a href="#contact" class="btn-outline">Let's Connect</a>
+            <a href="Devanshu_Kumar_Resume.pdf" class="btn-outline" download>Download Resume</a>
+          </div>
+        </div>
+
+        <div class="scroll-hint">
+          <span>Scroll</span>
+          <div class="scroll-line"></div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="stat-n">12+</div>
+          <div class="stat-l">Pages · VajraCognixia</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">🥇4+</div>
+          <div class="stat-l">National Gold Medals</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">7+</div>
+          <div class="stat-l">Certifications</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">2028</div>
+          <div class="stat-l">B.Tech Graduation</div>
+        </div>
+      </div>
+
+      <!-- ACHIEVEMENT BADGES -->
+      <div class="badges reveal">
+        <div class="badge">
+          <div class="badge-icon">🏆</div>
+          <div class="badge-title">National Champion</div>
+          <div class="badge-desc">Handball Gold Medals</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">💻</div>
+          <div class="badge-title">Learing Full-Stack Dev</div>
+          <div class="badge-desc">Firebase & React/native & Node</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">🎓</div>
+          <div class="badge-title">LPU SEM-4</div>
+          <div class="badge-desc">B.Tech CSE Student</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">🔒</div>
+          <div class="badge-title">AI-ML & DEVOPS</div>
+          <div class="badge-desc">LEARNING AIML/DEVOPS</div>
+        </div>
+        <div class="badge">
+          <div class="badge-icon">🚀</div>
+          <div class="badge-title">Live Projects</div>
+          <div class="badge-desc">Production Ready Apps</div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="about-grid">
+          <div class="about-text reveal-left">
+            <div class="s-label">Who I Am</div>
+            <h2 class="s-title">BUILT<br />DIFFER<span>ENT</span></h2>
+            <p>
+              I'm <strong>Devanshu Dhyanu</strong> — a B.Tech Computer Science
+              student at <strong>Lovely Professional University</strong>,
+              Phagwara (Batch 2024–2028). I build real products, not just
+              assignments.
+            </p>
+            <p>
+              My flagship project <strong>VajraCognixia</strong> is a live,
+              full-stack campus marketplace powering the LPU student ecosystem —
+              from food delivery to second-hand markets, all backed by Firebase.
+            </p>
+            <p>
+              Off the screen, I'm a
+              <strong>national-level handball player</strong> with multiple gold
+              medals at the School Games Federation of India. Discipline on the
+              court, precision in the code.
+            </p>
+          </div>
+          <div class="about-photo-wrap reveal">
+            <img src="me.jpeg" alt="Devanshu" />
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION TIMELINE -->
+      <section id="education">
+        <div class="s-label">Journey</div>
+        <h2 class="s-title reveal">EDUCATION <span>& EXPERIENCE</span></h2>
+        <div class="timeline reveal">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>B.Tech Computer Science</h3>
+              <p>Lovely Professional University, Phagwara</p>
+              <span>2024 - 2028 (Expected)</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>JEE PREPARATION</h3>
+              <p>ALLEN CARRIER INSTITUTE</p>
+              <span>2023</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>INTERMEDIATE</h3>
+              <p>KENDRIYA VIDYALAYA</p>
+              <span>COMPLEATED 2021-2023</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>MATRICULATION</h3>
+              <p>KENDRIYA VIDYALAYA</p>
+              <span>COMPLEATED 2020-21</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="skills-section">
+        <div class="s-label">Arsenal</div>
+        <h2 class="s-title reveal">TECH <span>STACK</span></h2>
+        <div class="skills-grid reveal">
+          <div class="sk-card">
+            <div class="sk-icon">⚡</div>
+            <div class="sk-name">C++ / C</div>
+            <div class="sk-desc">
+              DSA, OOP, competitive problem solving. LeetCode active.
+            </div>
+            <div class="sk-bar">
+              <div class="sk-fill" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-icon">🌐</div>
+            <div class="sk-name">HTML / CSS / JS</div>
+            <div class="sk-desc">
+              Vanilla-first, pixel-perfect, animated, glassmorphic interfaces.
+            </div>
+            <div class="sk-bar">
+              <div class="sk-fill" style="width: 90%"></div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-icon">🔥</div>
+            <div class="sk-name">Firebase</div>
+            <div class="sk-desc">
+              Auth, Firestore, Realtime DB, Hosting — full production backend.
+            </div>
+            <div class="sk-bar">
+              <div class="sk-fill" style="width: 78%"></div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-icon">🗄️</div>
+            <div class="sk-name">SQL</div>
+            <div class="sk-desc">
+              Relational databases, queries, schema design and optimization.
+            </div>
+            <div class="sk-bar">
+              <div class="sk-fill" style="width: 70%"></div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-icon">🛡️</div>
+            <div class="sk-name">AI-ML</div>
+            <div class="sk-desc">
+              Foundations & Essentials certified. Secure-by-design mindset.
+            </div>
+            <div class="sk-bar">
+              <div class="sk-fill" style="width: 65%"></div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-icon">🐍</div>
+            <div class="sk-name">Python</div>
+            <div class="sk-desc">
+              Scripting, automation, PDF generation with ReportLab.
+            </div>
+            <div class="sk-bar">
+              <div class="sk-fill" style="width: 60%"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CERTIFICATIONS -->
+      <section id="certifications">
+        <div class="s-label">Credentials</div>
+        <h2 class="s-title reveal">CERTIFIC<span>ATIONS</span></h2>
+        <div class="certs-grid reveal">
+          <div class="cert-card">
+            <img src="Certificates/Screenshot 2026-03-27 174940.png" alt="Certificate 1" />
+            <div class="cert-name">C++</div>
+            <div class="cert-issuer">INFOSYS</div>
+          </div>
+          <div class="cert-card">
+            <img src="Certificates/Screenshot 2026-03-27 174959.png" alt="Certificate 2" />
+            <div class="cert-name">English Communication</div>
+            <div class="cert-issuer">INFOSYS</div>
+          </div>
+          <div class="cert-card">
+            <img src="Certificates/Screenshot 2026-03-27 175054.png" alt="Certificate 3" />
+            <div class="cert-name">C Programming</div>
+            <div class="cert-issuer">iamNEO</div>
+          </div>
+          <div class="cert-card">
+            <img src="Certificates/Screenshot 2026-03-27 175119.png" alt="Certificate 4" />
+            <div class="cert-name">Cybersecurity Foundations</div>
+            <div class="cert-issuer">LINKEDIN LEARNING</div>
+          </div>
+          <div class="cert-card">
+            <img src="Certificates/Screenshot 2026-03-27 175203.png" alt="Certificate 6" />
+            <div class="cert-name">Cybersecurity Essentials</div>
+            <div class="cert-issuer">TECH VEDA</div>
+          </div>
+          <div class="cert-card">
+            <img src="Certificates/Screenshot 2026-03-27 175213.png" alt="Certificate 7" />
+            <div class="cert-name">Interoduction to Cybersecurity</div>
+            <div class="cert-issuer">SIMPLILEARN</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CODING STATS -->
+      <section id="coding-stats">
+        <div class="s-label">Analytics</div>
+        <h2 class="s-title reveal">CODING <span>STATS</span></h2>
+        <div class="stats-grid reveal">
+          <p align="center">
+            <img
+              src="https://leetcard.jacoblin.cool/devanshu_dhyanu13?theme=light&font=Nunito&ext=heatmap"
+              alt="LeetCode Stats"
+            />
+          </p>
+          <p align="center">
+            <img
+              height="280em"
+              src="https://github-readme-activity-graph.vercel.app/graph?username=Devanshu-Dhyanu&theme=github-light&radius=10"
+              alt="Devanshu-Dhyanu's Activity Graph"
+            />
+          </p>
+          <p align="center">
+            <a href="https://github.com/Devanshu-Dhyanu">
+              <img
+                height="180em"
+                src="https://github-readme-stats-eight-theta.vercel.app/api?username=Devanshu-Dhyanu&cache_seconds=7200&layout=compact&theme=light&border_radius=10"
+                alt="Devanshu-Dhyanu's GitHub Stats"
+              />
+            </a>
+            <img
+              src="https://streak-stats.demolab.com/?user=Devanshu-Dhyanu&theme=light&hide_border=true&cache_seconds=86400"
+              alt="Devanshu-Dhyanu's GitHub Streak"
+              width="49%"
+              height="180em"
+            />
+          </p>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="s-label">Work</div>
+        <h2 class="s-title reveal">FEATURED <span>PROJECTS</span></h2>
+        <div class="proj-list reveal">
+          <a
+            class="proj-card"
+            href="https://lpu-shopping.web.app"
+            target="_blank"
+          >
+            <div class="proj-num">01</div>
+            <div class="proj-image">
+              <img src="https://via.placeholder.com/300x200/333/fff?text=VajraCognixia" alt="VajraCognixia Screenshot" />
+            </div>
+            <div>
+              <div class="proj-name">VAJRA<span>COGNIXIA</span></div>
+              <div class="proj-desc">
+                Full-stack campus marketplace & food delivery platform for LPU.
+                Multi-role: student, seller, delivery partner, admin — wired to
+                Firebase in real-time. Live on Firebase Hosting.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">HTML/CSS/JS</span>
+                <span class="chip">Firebase</span>
+                <span class="chip">Firestore</span>
+                <span class="chip">EmailJS</span>
+                <span class="chip">Live</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+          <div class="proj-card" style="cursor: default">
+            <div class="proj-num">02</div>
+            <div class="proj-image">
+              <img src="https://via.placeholder.com/300x200/333/fff?text=Resume+Engine" alt="Resume Engine Screenshot" />
+            </div>
+            <div>
+              <div class="proj-name">RESUME <span>ENGINE</span></div>
+              <div class="proj-desc">
+                Automated professional resume builder in Python using ReportLab
+                — custom typography, clean layout, print-ready PDF output. Built
+                for personal use.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Python</span>
+                <span class="chip">ReportLab</span>
+                <span class="chip">PDF</span>
+                <span class="chip">Automation</span>
+              </div>
+            </div>
+            <div class="proj-arrow" style="opacity: 0">→</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CODE SNIPPETS -->
+      <section id="code-snippets">
+        <div class="s-label">Code</div>
+        <h2 class="s-title reveal">CODE <span>SNIPPETS</span></h2>
+        <div class="snippets-grid reveal">
+          <div class="snippet-card">
+            <div class="snippet-header">
+              <span class="snippet-lang">JavaScript</span>
+              <button class="copy-btn" data-clipboard="console.log('Hello, World!');">Copy</button>
+            </div>
+            <pre><code class="language-javascript">// Firebase Authentication
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+const auth = getAuth();
+signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    console.log('User signed in:', userCredential.user);
+  })
+  .catch((error) => {
+    console.error('Error:', error.message);
+  });</code></pre>
+          </div>
+          <div class="snippet-card">
+            <div class="snippet-header">
+              <span class="snippet-lang">Python</span>
+              <button class="copy-btn" data-clipboard="print('Hello, World!')">Copy</button>
+            </div>
+            <pre><code class="language-python"># PDF Generation with ReportLab
+from reportlab.pdfgen import canvas
+
+def create_resume(name, email):
+    c = canvas.Canvas("resume.pdf")
+    c.drawString(100, 750, f"Name: {name}")
+    c.drawString(100, 730, f"Email: {email}")
+    c.save()
+
+create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
+          </div>
+          <div class="snippet-card">
+            <div class="snippet-header">
+              <span class="snippet-lang">HTML</span>
+              <button class="copy-btn" data-clipboard="<div>Hello</div>">Copy</button>
+            </div>
+            <pre><code class="language-html"><!-- Responsive Card -->
+<div class="card">
+  <img src="image.jpg" alt="Project" />
+  <div class="card-content">
+    <h3>Project Title</h3>
+    <p>Description here</p>
   </div>
-
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">D<span>.</span>DHYANU</div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#sports">Sports</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta">Hire Me</a>
-  </nav>
-
-  <main>
-    <!-- HERO -->
-    <div class="hero" id="hero">
-      <div class="hero-photo tilt" id="heroPhoto">
-        <img src="me.jpeg" alt="Devanshu Dhyanu" id="heroImg" />
-        <div class="photo-year">2024 — PRESENT</div>
-      </div>
-
-      <div class="hero-content">
-        <div class="hero-eyebrow">
-          <div class="hero-eyebrow-dot"></div>
-          <span>Portfolio · B.Tech CS · LPU</span>
-        </div>
-        <div class="glitch-wrap">
-          <div class="glitch-name" data-text="DEVANSHU">DEVANSHU</div>
-        </div>
-        <div class="glitch-wrap" style="animation-delay:0.1s">
-          <div class="glitch-name name-red" data-text="DHYANU">DHYANU</div>
-        </div>
-        <div class="hero-role">Full Stack Dev <span>·</span> National Handball <span>·</span> LPU</div>
-        <blockquote class="hero-quote">"With great power comes great responsibility." — And with great code, comes great
-          impact.</blockquote>
-        <div class="hero-btns">
-          <a href="#projects" class="btn-fill">View My Work</a>
-          <a href="#contact" class="btn-outline">Let's Connect</a>
-        </div>
-      </div>
-
-      <div class="scroll-hint">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
-    </div>
-
-    <!-- STATS -->
-    <div class="stats reveal">
-      <div class="stat">
-        <div class="stat-n">12+</div>
-        <div class="stat-l">Pages · VajraCognixia</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">🥇4+</div>
-        <div class="stat-l">National Gold Medals</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">7+</div>
-        <div class="stat-l">Certifications</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">2028</div>
-        <div class="stat-l">B.Tech Graduation</div>
-      </div>
-    </div>
-
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="about-grid">
-        <div class="about-text reveal-left">
-          <div class="s-label">Who I Am</div>
-          <h2 class="s-title">BUILT<br>DIFFER<span>ENT</span></h2>
-          <p>I'm <strong>Devanshu Dhyanu</strong> — a B.Tech Computer Science student at <strong>Lovely Professional
-              University</strong>, Phagwara (Batch 2024–2028). I build real products, not just assignments.</p>
-          <p>My flagship project <strong>VajraCognixia</strong> is a live, full-stack campus marketplace powering the
-            LPU student ecosystem — from food delivery to second-hand markets, all backed by Firebase.</p>
-          <p>Off the screen, I'm a <strong>national-level handball player</strong> with multiple gold medals at the
-            School Games Federation of India. Discipline on the court, precision in the code.</p>
-        </div>
-        <div class="about-photo-wrap reveal">
-          <img src="me.jpeg" alt="Devanshu" />
-        </div>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section id="skills" class="skills-section">
-      <div class="s-label">Arsenal</div>
-      <h2 class="s-title reveal">TECH <span>STACK</span></h2>
-      <div class="skills-grid reveal">
-        <div class="sk-card">
-          <div class="sk-icon">⚡</div>
-          <div class="sk-name">C++ / C</div>
-          <div class="sk-desc">DSA, OOP, competitive problem solving. LeetCode active.</div>
-          <div class="sk-bar">
-            <div class="sk-fill" style="width:85%"></div>
+</div></code></pre>
           </div>
         </div>
-        <div class="sk-card">
-          <div class="sk-icon">🌐</div>
-          <div class="sk-name">HTML / CSS / JS</div>
-          <div class="sk-desc">Vanilla-first, pixel-perfect, animated, glassmorphic interfaces.</div>
-          <div class="sk-bar">
-            <div class="sk-fill" style="width:90%"></div>
-          </div>
-        </div>
-        <div class="sk-card">
-          <div class="sk-icon">🔥</div>
-          <div class="sk-name">Firebase</div>
-          <div class="sk-desc">Auth, Firestore, Realtime DB, Hosting — full production backend.</div>
-          <div class="sk-bar">
-            <div class="sk-fill" style="width:78%"></div>
-          </div>
-        </div>
-        <div class="sk-card">
-          <div class="sk-icon">🗄️</div>
-          <div class="sk-name">SQL</div>
-          <div class="sk-desc">Relational databases, queries, schema design and optimization.</div>
-          <div class="sk-bar">
-            <div class="sk-fill" style="width:70%"></div>
-          </div>
-        </div>
-        <div class="sk-card">
-          <div class="sk-icon">🛡️</div>
-          <div class="sk-name">Cybersecurity</div>
-          <div class="sk-desc">Foundations & Essentials certified. Secure-by-design mindset.</div>
-          <div class="sk-bar">
-            <div class="sk-fill" style="width:65%"></div>
-          </div>
-        </div>
-        <div class="sk-card">
-          <div class="sk-icon">🐍</div>
-          <div class="sk-name">Python</div>
-          <div class="sk-desc">Scripting, automation, PDF generation with ReportLab.</div>
-          <div class="sk-bar">
-            <div class="sk-fill" style="width:60%"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PROJECTS -->
-    <section id="projects">
-      <div class="s-label">Work</div>
-      <h2 class="s-title reveal">FEATURED <span>PROJECTS</span></h2>
-      <div class="proj-list reveal">
-        <a class="proj-card" href="https://lpu-shopping.web.app" target="_blank">
-          <div class="proj-num">01</div>
-          <div>
-            <div class="proj-name">VAJRA<span>COGNIXIA</span></div>
-            <div class="proj-desc">Full-stack campus marketplace & food delivery platform for LPU. Multi-role: student,
-              seller, delivery partner, admin — wired to Firebase in real-time. Live on Firebase Hosting.</div>
-            <div class="proj-chips">
-              <span class="chip">HTML/CSS/JS</span>
-              <span class="chip">Firebase</span>
-              <span class="chip">Firestore</span>
-              <span class="chip">EmailJS</span>
-              <span class="chip">Live</span>
+      <!-- TESTIMONIALS -->
+      <section id="testimonials">
+        <div class="s-label">Testimonials</div>
+        <h2 class="s-title reveal">WHAT PEOPLE <span>SAY</span></h2>
+        <div class="testimonials-carousel reveal">
+          <div class="carousel-container">
+            <div class="testimonial-card active">
+              <blockquote>"Devanshu is a dedicated and talented developer with exceptional problem-solving skills."</blockquote>
+              <cite>- Professor Sharma, LPU</cite>
+            </div>
+            <div class="testimonial-card">
+              <blockquote>"His passion for coding and sports makes him a well-rounded individual."</blockquote>
+              <cite>- Coach Verma, Handball Team</cite>
+            </div>
+            <div class="testimonial-card">
+              <blockquote>"Great teamwork and innovative ideas in our projects."</blockquote>
+              <cite>- Team Lead, Internship</cite>
             </div>
           </div>
-          <div class="proj-arrow">→</div>
-        </a>
-        <div class="proj-card" style="cursor:default;">
-          <div class="proj-num">02</div>
-          <div>
-            <div class="proj-name">RESUME <span>ENGINE</span></div>
-            <div class="proj-desc">Automated professional resume builder in Python using ReportLab — custom typography,
-              clean layout, print-ready PDF output. Built for personal use.</div>
-            <div class="proj-chips">
-              <span class="chip">Python</span>
-              <span class="chip">ReportLab</span>
-              <span class="chip">PDF</span>
-              <span class="chip">Automation</span>
+          <button class="carousel-prev">&lt;</button>
+          <button class="carousel-next">&gt;</button>
+          <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPORTS -->
+      <section id="sports" class="sports-section">
+        <div class="s-label">Athletics</div>
+        <h2 class="s-title reveal">ON THE <span>COURT</span></h2>
+        <div class="sports-grid reveal">
+          <div class="sport-card">
+            <div class="sport-medal">🥇</div>
+            <div class="sport-title">National Gold · SGFI</div>
+            <div class="sport-desc">
+              Multiple gold medals at the School Games Federation of India —
+              national-level handball. Represented at the highest school sports
+              platform in India.
             </div>
           </div>
-          <div class="proj-arrow" style="opacity:0">→</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SPORTS -->
-    <section id="sports" class="sports-section">
-      <div class="s-label">Athletics</div>
-      <h2 class="s-title reveal">ON THE <span>COURT</span></h2>
-      <div class="sports-grid reveal">
-        <div class="sport-card">
-          <div class="sport-medal">🥇</div>
-          <div class="sport-title">National Gold · SGFI</div>
-          <div class="sport-desc">Multiple gold medals at the School Games Federation of India — national-level
-            handball. Represented at the highest school sports platform in India.</div>
-        </div>
-        <div class="sport-card">
-          <div class="sport-medal">🥈</div>
-          <div class="sport-title">Runner-Up · SGFI</div>
-          <div class="sport-desc">National runner-up at SGFI handball. Consistent elite-level performance across
-            multiple seasons and competitions.</div>
-        </div>
-        <div class="sport-card">
-          <div class="sport-medal">🤾</div>
-          <div class="sport-title">National Athlete</div>
-          <div class="sport-desc">A rare combination — technical depth on the keyboard, competitive fire on the court.
-            Sport and code share the same language: discipline.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="contact-inner">
-        <div class="reveal-left">
-          <div class="s-label">Get In Touch</div>
-          <div class="contact-big">LET'S<br>BUILD<br><span>TOGETHER</span></div>
-        </div>
-        <div class="reveal">
-          <p class="contact-sub">Open to internships, collaborations, freelance projects, and interesting problems. If
-            you have an idea — let's talk.</p>
-          <div class="contact-links">
-            <a href="https://linkedin.com/in/devanshudhyanu" class="clink" target="_blank">
-              <i class="clink-icon">in</i> linkedin.com/in/devanshudhyanu
-            </a>
-            <a href="https://leetcode.com/devanshu_dhyanu13" class="clink" target="_blank">
-              <i class="clink-icon">⌨</i> leetcode.com/devanshu_dhyanu13
-            </a>
-            <a href="https://instagram.com/devanshu_dhyanu" class="clink" target="_blank">
-              <i class="clink-icon">📷</i> @devanshu_dhyanu
-            </a>
-            <a href="https://lpu-shopping.web.app" class="clink" target="_blank">
-              <i class="clink-icon">🔥</i> lpu-shopping.web.app
-            </a>
+          <div class="sport-card">
+            <div class="sport-medal">🥈</div>
+            <div class="sport-title">Runner-Up · SGFI</div>
+            <div class="sport-desc">
+              National runner-up at SGFI handball. Consistent elite-level
+              performance across multiple seasons and competitions.
+            </div>
+          </div>
+          <div class="sport-card">
+            <div class="sport-medal">🤾</div>
+            <div class="sport-title">National Athlete</div>
+            <div class="sport-desc">
+              A rare combination — technical depth on the keyboard, competitive
+              fire on the court. Sport and code share the same language:
+              discipline.
+            </div>
           </div>
         </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="contact-inner">
+          <div class="reveal-left">
+            <div class="s-label">Get In Touch</div>
+            <div class="contact-big">
+              LET'S<br />BUILD<br /><span>TOGETHER</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <p class="contact-sub">
+              Open to internships, collaborations, freelance projects, and
+              interesting problems. If you have an idea — let's talk.
+            </p>
+            <div class="contact-links">
+              <a
+                href="https://linkedin.com/in/devanshudhyanu"
+                class="clink"
+                target="_blank"
+              >
+                <i class="clink-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM20.45 20.45h-3.56v-5.56c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.66h-3.56V9h3.42v1.56h.05c.48-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z"
+                    />
+                  </svg>
+                </i>
+                linkedin.com/in/devanshudhyanu
+              </a>
+              <a
+                href="https://leetcode.com/devanshu_dhyanu13"
+                class="clink"
+                target="_blank"
+              >
+                <i class="clink-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.253C4.638 15.511 4 14.478 4 13.255s.638-2.256 1.426-3.028l4.908-4.814-.002.002c.465-.466 1.11-.661 1.822-.661s1.358.195 1.824.661l2.697 2.606c.516.515.516 1.348 0 1.864l-2.585 2.5a.65.65 0 0 1-.926 0l-.826-.8c-.287-.286-.757-.286-1.043 0l-1.722 1.666a.71.71 0 0 0 0 1.014l2.586 2.5c.287.286.756.286 1.043 0l1.721-1.666.827.8a.65.65 0 0 1 0 .926zm6.549-3.818l-1.74-1.684a.65.65 0 0 0-.926 0l-1.74 1.684c-.286.286-.286.757 0 1.043l1.722 1.666c.287.286.756.286 1.043 0l1.74-1.684a.71.71 0 0 0 0-1.014v-.011z"
+                    ></path>
+                  </svg>
+                </i>
+                leetcode.com/devanshu_dhyanu13
+              </a>
+              <a
+                href="https://instagram.com/devanshu_dhyanu"
+                class="clink"
+                target="_blank"
+              >
+                <i class="clink-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    />
+                  </svg>
+                </i>
+                @devanshu_dhyanu
+              </a>
+              <a
+                href="https://www.youtube.com/@OOPSDhyanu13"
+                class="clink"
+                target="_blank"
+              >
+                <i class="clink-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                    />
+                  </svg>
+                </i>
+                @OOPSDhyanu13
+              </a>
+              <a
+                href="mailto:devanshudhyanu0813@gmail.com"
+                class="clink"
+                target="_blank"
+              >
+                <i class="clink-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                    />
+                  </svg>
+                </i>
+                devanshudhyanu0813@gmail.com
+              </a>
+              <a
+                href="https://lpu-shopping.web.app"
+                class="clink"
+                target="_blank"
+              >
+                <i class="clink-icon" style="font-size: 1.1rem">🔥</i>
+                lpu-shopping.web.app
+              </a>
+            </div>
+            <form id="contactForm" class="contact-form">
+              <input type="text" id="name" name="name" placeholder="Your Name" required>
+              <input type="email" id="email" name="email" placeholder="Your Email" required>
+              <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+              <button type="submit" class="btn-fill">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <span class="footer-l">© 2025 Devanshu Dhyanu · LPU · Phagwara, Punjab</span>
+        <div class="footer-newsletter">
+          <div class="newsletter-title">Stay Updated</div>
+          <form id="newsletterForm" class="newsletter-form">
+            <input type="email" id="newsletterEmail" name="email" placeholder="Your Email" required>
+            <button type="submit" class="btn-fill">Subscribe</button>
+          </form>
+        </div>
+        <div class="footer-social">
+          <a href="https://linkedin.com/in/devanshudhyanu" target="_blank" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM20.45 20.45h-3.56v-5.56c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.66h-3.56V9h3.42v1.56h.05c.48-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z" />
+            </svg>
+          </a>
+          <a href="https://github.com/Devanshu-Dhyanu" target="_blank" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+            </svg>
+          </a>
+          <a href="mailto:devanshudhyanu0813@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </svg>
+          </a>
+        </div>
       </div>
-    </section>
-  </main>
+      <button id="backToTop" class="back-to-top">↑</button>
+    </footer>
 
-  <footer>
-    <span class="footer-l">© 2025 Devanshu Dhyanu · LPU · Phagwara, Punjab</span>
-    <span class="footer-r">D<span>.</span>DHYANU</span>
-  </footer>
+    <!-- IMAGE MODAL -->
+    <div id="imageModal" class="modal">
+      <span class="modal-close">&times;</span>
+      <img class="modal-content" id="modalImg" />
+    </div>
 
-  <script>
-    /* ── CURSOR ── */
-    const cur = document.getElementById('cur'), cur2 = document.getElementById('cur2');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx + 'px'; cur.style.top = my + 'px'; });
-    (function loop() { rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1; cur2.style.left = rx + 'px'; cur2.style.top = ry + 'px'; requestAnimationFrame(loop); })();
+    <script>
+      /* ── CURSOR ── */
+      const cur = document.getElementById("cur"),
+        cur2 = document.getElementById("cur2");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cur.style.left = mx + "px";
+        cur.style.top = my + "px";
+      });
+      (function loop() {
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        cur2.style.left = rx + "px";
+        cur2.style.top = ry + "px";
+        requestAnimationFrame(loop);
+      })();
 
-    /* ── PARTICLES ── */
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, particles = [];
-    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-    resize(); window.addEventListener('resize', resize);
-
-    class Particle {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * W;
-        this.y = Math.random() * H;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
-        this.r = Math.random() * 1.2 + 0.2;
-        this.a = Math.random() * 0.4 + 0.05;
-        this.color = Math.random() > 0.7 ? `rgba(230,57,70,${this.a})` : `rgba(201,162,39,${this.a * 0.5})`;
+      /* ── PARTICLES ── */
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      let W,
+        H,
+        particles = [];
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
       }
-      update() {
-        this.x += this.vx; this.y += this.vy;
-        if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
-      }
-      draw() {
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fillStyle = this.color; ctx.fill();
-      }
-    }
-    for (let i = 0; i < 120; i++)particles.push(new Particle());
+      resize();
+      window.addEventListener("resize", resize);
 
-    // Lines between nearby particles
-    function drawLines() {
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 100) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(230,57,70,${0.06 * (1 - d / 100)})`;
-            ctx.lineWidth = 0.5; ctx.stroke();
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * W;
+          this.y = Math.random() * H;
+          this.vx = (Math.random() - 0.5) * 0.3;
+          this.vy = (Math.random() - 0.5) * 0.3;
+          this.r = Math.random() * 1.2 + 0.2;
+          this.a = Math.random() * 0.4 + 0.05;
+          this.color =
+            Math.random() > 0.7
+              ? `rgba(230,57,70,${this.a})`
+              : `rgba(201,162,39,${this.a * 0.5})`;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > W || this.y < 0 || this.y > H)
+            this.reset();
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+      for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+      // Lines between nearby particles
+      function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 100) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(230,57,70,${0.06 * (1 - d / 100)})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
           }
         }
       }
-    }
 
-    function animParticles() {
-      ctx.clearRect(0, 0, W, H);
-      drawLines();
-      particles.forEach(p => { p.update(); p.draw(); });
-      requestAnimationFrame(animParticles);
-    }
-    animParticles();
+      function animParticles() {
+        ctx.clearRect(0, 0, W, H);
+        drawLines();
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animParticles);
+      }
+      animParticles();
 
-    /* ── INTRO ── */
-    const name = 'DEVANSHU DHYANU';
-    const introEl = document.getElementById('introName');
-    name.split('').forEach((ch, i) => {
-      const s = document.createElement('span');
-      s.className = 'intro-letter';
-      s.textContent = ch === ' ' ? '\u00a0' : ch;
-      s.style.animationDelay = (0.05 * i + 0.2) + 's';
-      s.style.color = i >= 9 ? '#e63946' : '#f0f0f0';
-      introEl.appendChild(s);
-    });
-    setTimeout(() => {
-      document.getElementById('intro').classList.add('hide');
-    }, 2000);
-
-    /* ── HERO IMG LOAD ── */
-    const heroImg = document.getElementById('heroImg');
-    heroImg.onload = () => heroImg.classList.add('loaded');
-    if (heroImg.complete) heroImg.classList.add('loaded');
-
-    /* ── 3D TILT on hero photo ── */
-    const heroPhoto = document.getElementById('heroPhoto');
-    document.addEventListener('mousemove', e => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 12;
-      const y = (e.clientY / window.innerHeight - 0.5) * -8;
-      heroPhoto.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg)`;
-    });
-
-    /* ── SCROLL REVEAL ── */
-    const revEls = document.querySelectorAll('.reveal,.reveal-left');
-    const revObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); revObs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    revEls.forEach(el => revObs.observe(el));
-
-    /* ── SKILL BARS ── */
-    const fills = document.querySelectorAll('.sk-fill');
-    const barObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); barObs.unobserve(e.target); } });
-    }, { threshold: 0.5 });
-    fills.forEach(f => barObs.observe(f));
-
-    /* ── SMOOTH SCROLL ── */
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        const t = document.querySelector(a.getAttribute('href'));
-        if (t) t.scrollIntoView({ behavior: 'smooth' });
+      /* ── INTRO ── */
+      const name = "DEVANSHU DHYANU";
+      const introEl = document.getElementById("introName");
+      name.split("").forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "intro-letter";
+        s.textContent = ch === " " ? "\u00a0" : ch;
+        s.style.animationDelay = 0.05 * i + 0.2 + "s";
+        s.style.color = i >= 9 ? "#e63946" : "#f0f0f0";
+        introEl.appendChild(s);
       });
-    });
+      setTimeout(() => {
+        document.getElementById("intro").classList.add("hide");
+      }, 2000);
 
-    /* ── COUNTER ANIMATION ── */
-    document.querySelectorAll('.stat-n').forEach(el => {
-      const obs2 = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          el.style.transition = 'color 0.3s';
-          el.style.color = '#f0d060';
-          setTimeout(() => el.style.color = '#e63946', 300);
-          obs2.unobserve(el);
+      /* ── HERO IMG LOAD ── */
+      const heroImg = document.getElementById("heroImg");
+      heroImg.onload = () => heroImg.classList.add("loaded");
+      if (heroImg.complete) heroImg.classList.add("loaded");
+
+      /* ── 3D TILT on hero photo ── */
+      const heroPhoto = document.getElementById("heroPhoto");
+      document.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 12;
+        const y = (e.clientY / window.innerHeight - 0.5) * -8;
+        heroPhoto.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg)`;
+      });
+
+      /* ── SCROLL REVEAL ── */
+      const revEls = document.querySelectorAll(".reveal,.reveal-left");
+      const revObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("on");
+              revObs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      revEls.forEach((el) => revObs.observe(el));
+
+      /* ── SKILL BARS ── */
+      const fills = document.querySelectorAll(".sk-fill");
+      const barObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("on");
+              barObs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      fills.forEach((f) => barObs.observe(f));
+
+      /* ── SMOOTH SCROLL ── */
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const t = document.querySelector(a.getAttribute("href"));
+          if (t) t.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      /* ── COUNTER ANIMATION ── */
+      function animateCounter(el, target) {
+        let current = 0;
+        const increment = target / 100;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            el.textContent = target + (el.textContent.includes('+') ? '+' : '');
+            clearInterval(timer);
+          } else {
+            el.textContent = Math.floor(current) + (el.textContent.includes('+') ? '+' : '');
+          }
+        }, 20);
+      }
+
+      document.querySelectorAll(".stat-n").forEach((el) => {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              const text = el.textContent;
+              const num = parseInt(text.replace(/[^\d]/g, ''));
+              animateCounter(el, num);
+              obs.unobserve(el);
+            }
+          },
+          { threshold: 1 }
+        );
+        obs.observe(el);
+      });
+
+      /* ── CONTACT FORM ── */
+      document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+          from_name: document.getElementById('name').value,
+          from_email: document.getElementById('email').value,
+          message: document.getElementById('message').value
+        }).then(function(response) {
+          alert('Message sent successfully!');
+          document.getElementById('contactForm').reset();
+        }, function(error) {
+          alert('Failed to send message. Please try again.');
+        });
+      });
+
+      /* ── NEWSLETTER FORM ── */
+      document.getElementById('newsletterForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('newsletterEmail').value;
+        // Here you would integrate with your newsletter service (e.g., Mailchimp, ConvertKit)
+        alert('Thank you for subscribing! ' + email);
+        document.getElementById('newsletterForm').reset();
+      });
+
+      /* ── BACK TO TOP ── */
+      const backToTopBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('show');
+        } else {
+          backToTopBtn.classList.remove('show');
         }
-      }, { threshold: 1 });
-      obs2.observe(el);
-    });
-  </script>
-</body>
+      });
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
 
+      /* ── IMAGE MODAL ── */
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImg');
+      const modalClose = document.querySelector('.modal-close');
+
+      // Add click event to certificate images
+      document.querySelectorAll('.cert-card img').forEach(img => {
+        img.addEventListener('click', () => {
+          modal.style.display = 'flex';
+          modalImg.src = img.src;
+        });
+      });
+
+      // Add click event to project images
+      document.querySelectorAll('.proj-image img').forEach(img => {
+        img.addEventListener('click', () => {
+          modal.style.display = 'flex';
+          modalImg.src = img.src;
+        });
+      });
+
+      // Close modal when clicking close button or outside the image
+      modalClose.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      /* ── TESTIMONIALS CAROUSEL ── */
+      const carouselContainer = document.querySelector('.carousel-container');
+      const testimonialCards = document.querySelectorAll('.testimonial-card');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      const dots = document.querySelectorAll('.dot');
+
+      let currentIndex = 0;
+
+      function updateCarousel() {
+        carouselContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        testimonialCards.forEach((card, index) => {
+          card.classList.toggle('active', index === currentIndex);
+        });
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+        });
+      }
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
+        updateCarousel();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % testimonialCards.length;
+        updateCarousel();
+      });
+
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentIndex = index;
+          updateCarousel();
+        });
+      });
+
+      // Auto slide every 5 seconds
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % testimonialCards.length;
+        updateCarousel();
+      }, 5000);
+
+      /* ── 3D TILT EFFECTS ── */
+      const tiltCards = document.querySelectorAll('.proj-card, .cert-card, .sk-card');
+
+      tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / 10;
+          const rotateY = (centerX - x) / 10;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        });
+      });
+
+      /* ── COPY CODE SNIPPETS ── */
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = btn.getAttribute('data-clipboard');
+          navigator.clipboard.writeText(text).then(() => {
+            const original = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = original, 2000);
+          });
+        });
+      });
+
+      /* ── ACTIVE NAV HIGHLIGHTING ── */
+      const sections = document.querySelectorAll('section[id], .hero[id]');
+      const navLinks = document.querySelectorAll('.nav-links a');
+
+      const navObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              navLinks.forEach((link) => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) {
+                  link.classList.add('active');
+                }
+              });
+            }
+          });
+        },
+        {
+          rootMargin: '-50% 0px -50% 0px',
+          threshold: 0
+        }
+      );
+
+      sections.forEach((section) => navObserver.observe(section));
+
+      /* ── SCROLL PROGRESS INDICATOR ── */
+      const scrollProgressBar = document.getElementById('scrollProgressBar');
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        scrollProgressBar.style.width = scrollPercent + '%';
+      });
+
+      /* ── TYPEWRITER EFFECT ── */
+      const typewriterText = "Portfolio · B.Tech CS · LPU";
+      const typewriterEl = document.getElementById('typewriter');
+      let i = 0;
+
+      function typeWriter() {
+        if (i < typewriterText.length) {
+          typewriterEl.textContent += typewriterText.charAt(i);
+          i++;
+          setTimeout(typeWriter, 100);
+        }
+      }
+
+      // Start typewriter after intro animation
+      setTimeout(() => {
+        typeWriter();
+      }, 2500);
+
+      /* ── THEME TOGGLE ── */
+      const themeToggle = document.getElementById('themeToggle');
+      const themes = ['', 'theme-blue', 'theme-green', 'theme-purple'];
+      let currentTheme = 0;
+
+      themeToggle.addEventListener('click', () => {
+        currentTheme = (currentTheme + 1) % themes.length;
+        document.body.className = themes[currentTheme];
+        localStorage.setItem('theme', themes[currentTheme]);
+      });
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.body.className = savedTheme;
+        currentTheme = themes.indexOf(savedTheme);
+      }
+    </script>
+  </body>
 </html>
