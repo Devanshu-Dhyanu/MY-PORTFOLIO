@@ -1637,6 +1637,32 @@
         align-self: flex-start;
       }
 
+      .audio-resume-card {
+        margin-top: 24px;
+        padding: 24px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .audio-resume-card h3 {
+        margin-bottom: 10px;
+        font-size: 1.05rem;
+      }
+
+      .audio-resume-card p {
+        margin-bottom: 16px;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 0.8rem;
+        line-height: 1.6;
+      }
+
+      .audio-status {
+        margin-top: 12px;
+        color: var(--dim);
+        font-size: 0.72rem;
+      }
+
       /* ─── FOOTER ─── */
       footer {
         padding: 22px 5vw;
@@ -2458,6 +2484,12 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
                 vajraCognixia.in
               </a>
             </div>
+            <div class="audio-resume-card">
+              <h3>Audio Resume</h3>
+              <p>Listen to a short spoken introduction about my skills, projects, and goals. Works best in modern browsers with speech synthesis support.</p>
+              <button type="button" id="audioResumeBtn" class="btn-outline">Play Audio Resume</button>
+              <p id="audioResumeStatus" class="audio-status">Ready to speak.</p>
+            </div>
             <form id="contactForm" class="contact-form">
               <input type="text" id="name" name="name" placeholder="Your Name" required>
               <input type="email" id="email" name="email" placeholder="Your Email" required>
@@ -2892,6 +2924,98 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
       }
 
       loadGitHubRepos();
+
+      /* ── AUDIO RESUME ── */
+      const audioResumeBtn = document.getElementById('audioResumeBtn');
+      const audioResumeStatus = document.getElementById('audioResumeStatus');
+      let audioUtterance = null;
+      let audioSpeaking = false;
+
+      const audioResumeText = `Hello, I am Devanshu Dhyanu, a full stack developer and national handball athlete studying Computer Science at Lovely Professional University. I build real products with HTML, CSS, JavaScript, Firebase, and Python. I create fast, polished websites and applications backed by real-time systems. I am open to internships, freelance projects, and collaboration.`;
+
+      function updateAudioButton(state) {
+        if (state === 'speaking') {
+          audioResumeBtn.textContent = 'Stop Audio Resume';
+          audioResumeStatus.textContent = 'Speaking...';
+        } else if (state === 'finished') {
+          audioResumeBtn.textContent = 'Play Audio Resume';
+          audioResumeStatus.textContent = 'Audio finished.';
+        } else if (state === 'unsupported') {
+          audioResumeBtn.textContent = 'Audio Not Supported';
+          audioResumeStatus.textContent = 'Speech synthesis is not available in this browser.';
+        } else {
+          audioResumeBtn.textContent = 'Play Audio Resume';
+          audioResumeStatus.textContent = 'Ready to speak.';
+        }
+      }
+
+      function getIndianVoice() {
+        const voices = window.speechSynthesis.getVoices();
+        const indianVoices = voices.filter((voice) => {
+          return (
+            voice.lang?.toLowerCase().startsWith('en-in') ||
+            /india|indian/i.test(voice.name || '')
+          );
+        });
+        if (indianVoices.length) return indianVoices[0];
+        const englishVoices = voices.filter((voice) => voice.lang?.toLowerCase().startsWith('en'));
+        return englishVoices[0] || voices[0] || null;
+      }
+
+      function stopAudioResume() {
+        if (window.speechSynthesis && audioSpeaking) {
+          window.speechSynthesis.cancel();
+        }
+      }
+
+      function playAudioResume() {
+        if (!window.speechSynthesis) {
+          updateAudioButton('unsupported');
+          return;
+        }
+
+        if (audioSpeaking) {
+          stopAudioResume();
+          return;
+        }
+
+        audioUtterance = new SpeechSynthesisUtterance(audioResumeText);
+        audioUtterance.rate = 1;
+        audioUtterance.pitch = 1;
+        audioUtterance.lang = 'en-IN';
+        const indianVoice = getIndianVoice();
+        if (indianVoice) {
+          audioUtterance.voice = indianVoice;
+        }
+
+        audioUtterance.onstart = () => {
+          audioSpeaking = true;
+          updateAudioButton('speaking');
+        };
+
+        audioUtterance.onend = () => {
+          audioSpeaking = false;
+          updateAudioButton('finished');
+        };
+
+        audioUtterance.onerror = () => {
+          audioSpeaking = false;
+          updateAudioButton('error');
+          audioResumeStatus.textContent = 'Audio failed to play.';
+        };
+
+        window.speechSynthesis.speak(audioUtterance);
+      }
+
+      if (audioResumeBtn) {
+        audioResumeBtn.addEventListener('click', () => {
+          if (audioSpeaking) {
+            stopAudioResume();
+          } else {
+            playAudioResume();
+          }
+        });
+      }
 
       /* ── ACTIVE NAV HIGHLIGHTING ── */
       const sections = document.querySelectorAll('section[id], .hero[id]');
