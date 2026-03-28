@@ -13,6 +13,21 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <title>Devanshu Dhyanu</title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devanshu Dhyanu",
+      "jobTitle": "Full Stack Developer",
+      "alumniOf": "Lovely Professional University",
+      "knowsAbout": ["JavaScript", "Python", "React", "Firebase", "Algorithms", "Web Development"],
+      "sameAs": [
+        "https://linkedin.com/in/devanshudhyanu",
+        "https://github.com/Devanshu-Dhyanu",
+        "https://leetcode.com/devanshu_dhyanu13"
+      ]
+    }
+    </script>
     <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Rajdhani:wght@600;700&display=swap"
       rel="stylesheet"
@@ -2318,6 +2333,64 @@
         background: var(--red);
         color: #fff;
       }
+
+      /* ── PRINT-OPTIMISED CSS ── */
+      @media print {
+        body {
+          background: #fff !important;
+          color: #000 !important;
+          font-family: "DM Sans", sans-serif !important;
+          font-size: 11pt !important;
+        }
+        nav, #intro, #canvas, .noise, #scrollProgress, #chatbotBtn, #chatbotContainer, #customContextMenu, .skip-link, .back-to-top, .hero-btns, .footer-newsletter, .glitch-wrap::before, .glitch-wrap::after, .proj-arrow, #resume-preview, #imageModal {
+          display: none !important;
+        }
+        .reveal, .reveal-left, .reveal-right {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+        }
+        h1, h2, h3, h4, h5, h6, p, div, span, a, li, .s-label, .s-title {
+          color: #000 !important;
+          text-shadow: none !important;
+        }
+        .s-title span {
+          -webkit-text-stroke: 1px #000 !important;
+          color: transparent !important;
+        }
+        .proj-card, .sk-card, .cert-card, .sport-card, .github-card, .snippet-card, .testimonial-card {
+          background: transparent !important;
+          border: 1px solid #ccc !important;
+          box-shadow: none !important;
+          page-break-inside: avoid !important;
+          transform: none !important;
+        }
+        .hero {
+          min-height: auto !important;
+          padding: 1cm 0 !important;
+          page-break-after: avoid !important;
+        }
+        .glitch-name, .glitch-name.name-red {
+          color: #000 !important;
+          animation: none !important;
+        }
+        .chip {
+          border: 1px solid #ccc;
+          background: transparent !important;
+          color: #000 !important;
+        }
+        a {
+          text-decoration: underline !important;
+          color: #000 !important;
+        }
+        section {
+          margin-bottom: 1cm !important;
+        }
+        .sports-grid, .sk-grid, .cert-grid {
+          display: block !important;
+        }
+      }
     </style>
   </head>
 
@@ -2344,6 +2417,7 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="Gallery.html">Gallery</a></li>
+        <li><a href="manifesto.html">Manifesto</a></li>
       </ul>
       <button id="themeToggle" class="theme-btn">🎨</button>
       <a href="#contact" class="nav-cta">Hire Me</a>
@@ -2840,6 +2914,27 @@
             <div class="proj-arrow">→</div>
           </a>
 
+          <!-- Share Profile -->
+          <a class="proj-card" id="shareProfileCard" style="cursor: pointer;">
+            <div class="proj-num">07</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">SHARE <span>PROFILE</span></div>
+              <div class="proj-desc" id="shareProfileDesc">
+                Click here to share my portfolio instantly with your network, colleagues, or friends!
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Share</span>
+                <span class="chip">Network</span>
+              </div>
+            </div>
+            <div class="proj-arrow">🚀</div>
+          </a>
+
         </div>
       </section>
 
@@ -2852,6 +2947,33 @@
           <div style="grid-column: 1/-1; color: var(--dim);">Loading repositories…</div>
         </div>
       </section>
+
+      <!-- WAKATIME STATS -->
+      <section id="coding-stats" class="github-section reveal">
+        <div class="s-label">Live Coding Data</div>
+        <h2 class="s-title">WAKATIME <span>HOURS</span></h2>
+        <p style="color: rgba(255,255,255,0.55); margin-bottom: 25px; max-width: 700px;">
+          Automatically fetched from WakaTime. Displays my live coding hours, top languages, and editor stats based on my realtime coding activity.
+        </p>
+        <!-- Interactive glowing terminal container -->
+        <div style="position: relative; max-width: 900px; margin: 0 auto;">
+          <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; background: radial-gradient(circle at center, rgba(230, 57, 70, 0.15) 0%, transparent 70%); filter: blur(20px); z-index: -1;"></div>
+          <figure style="margin: 0 auto; display: block; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px rgba(0,0,0,0.8); background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(10px);">
+            <!-- macOS style header -->
+            <div style="display: flex; gap: 8px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); align-items: center;">
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56; border: 1px solid #e0443e;"></div>
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e; border: 1px solid #dea123;"></div>
+              <div style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f; border: 1px solid #1aab29;"></div>
+              <div style="margin-left: 10px; color: rgba(255,255,255,0.4); font-size: 13px; font-family: monospace;">bash — devanshu_dhyanu — wakatime</div>
+            </div>
+            <!-- Scaled Embed -->
+            <div style="padding: 10px; overflow: hidden; height: 500px;">
+              <embed src="https://wakatime.com/share/@devanshu_dhyanu/2465dde5-16d1-4ad9-9d2a-9d673aeeceef.svg" style="width: 100%; height: 100%; border: none;"></embed>
+            </div>
+          </figure>
+        </div>
+      </section>
+
 
       <!-- CODE SNIPPETS -->
       <section id="code-snippets">
@@ -2968,6 +3090,27 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
               discipline.
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- RESUME PREVIEW -->
+      <section id="resume-preview">
+        <div class="s-label">Interactive</div>
+        <h2 class="s-title reveal">MY <span>RESUME</span></h2>
+        
+        <div class="reveal" style="max-width: 900px; margin: 0 auto; text-align: center; padding: 0 20px;">
+          <div style="position: relative; width: 100%; height: 75vh; min-height: 600px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg2); margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <iframe src="Devanshu_Kumar_Resume.pdf#toolbar=0" style="width: 100%; height: 100%; border: none;">
+              This browser does not support PDFs. Please download the PDF to view it.
+            </iframe>
+          </div>
+          
+          <a href="Devanshu_Kumar_Resume.pdf" class="btn-fill" download style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            Download Resume
+          </a>
         </div>
       </section>
 
@@ -3960,6 +4103,69 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
           if(!chatbotContainer.classList.contains('open')) chatbotBtn.click();
         });
       }
+
+      /* ── WEB SHARE API ── */
+      const shareProfileCard = document.getElementById("shareProfileCard");
+      const shareProfileDesc = document.getElementById("shareProfileDesc");
+      if(shareProfileCard) {
+        shareProfileCard.addEventListener("click", (e) => {
+          e.preventDefault();
+          const shareData = {
+            title: 'Devanshu Dhyanu | Full Stack Developer',
+            text: 'Check out the amazing portfolio of Devanshu Dhyanu, Full Stack Developer and National Handball Athlete!',
+            url: window.location.href
+          };
+          if (navigator.share) {
+            navigator.share(shareData).catch(console.error);
+          } else {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+              const original = shareProfileDesc.innerText;
+              shareProfileDesc.innerText = "✅ Link copied to clipboard!";
+              setTimeout(() => shareProfileDesc.innerText = original, 3000);
+            });
+          }
+        });
+      }
+
+      /* ── DYNAMIC TITLE & FAVICON ── */
+      let originalTitle = document.title;
+      let originalFavicon = document.querySelector('link[rel="icon"]')?.href || "";
+      
+      const getFaviconEl = () => {
+        let el = document.querySelector('link[rel="icon"]');
+        if (!el) {
+          el = document.createElement('link');
+          el.rel = 'icon';
+          document.head.appendChild(el);
+        }
+        return el;
+      };
+
+      const setFavicon = (emoji) => {
+        const canvas = document.createElement('canvas');
+        canvas.height = 64;
+        canvas.width = 64;
+        const ctx = canvas.getContext('2d');
+        ctx.font = '50px serif';
+        ctx.fillText(emoji, 5, 50);
+        getFaviconEl().href = canvas.toDataURL();
+      };
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          document.title = "👋 Hey, don't go!";
+          setFavicon('👋');
+        } else {
+          document.title = originalTitle;
+          if (originalFavicon) {
+            getFaviconEl().href = originalFavicon;
+          } else {
+             // Reset gracefully if didn't have one originally
+            const el = document.querySelector('link[rel="icon"]');
+            if(el) document.head.removeChild(el);
+          }
+        }
+      });
 
     </script>
   </body>

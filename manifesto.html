@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manifesto | Why I Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050507;
+      --text: #e8e8e8;
+      --dim: rgba(255, 255, 255, 0.4);
+      --red: #e63946;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Playfair Display', serif;
+      line-height: 1.9;
+      margin: 0;
+      padding: 12vh 6vw;
+      display: flex;
+      justify-content: center;
+      background-image: radial-gradient(circle at 50% 0, rgba(230, 57, 70, 0.05), transparent 50%);
+    }
+    .wrapper {
+      max-width: 650px;
+      width: 100%;
+      animation: fadeUp 1s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 500;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+    h1::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      display: block;
+      bottom: -15px;
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+      opacity: 0.5;
+    }
+    p {
+      font-size: clamp(18px, 4vw, 22px);
+      margin-bottom: 2.2rem;
+      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+    }
+    p strong {
+      font-style: italic;
+      font-weight: 600;
+      color: #fff;
+    }
+    .back {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dim);
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 5rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .back:hover {
+      color: var(--text);
+      transform: translateX(-5px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <h1>Manifesto</h1>
+
+    <p>I don’t write code just because it’s a career. I write code because it’s the closest thing we have to magic.</p>
+
+    <p>Every day, I sit in front of a dark, blank screen. With nothing but logic and keystrokes, I can build entirely new worlds. I can solve problems that seemed completely impossible yesterday. I can build systems that help people, tell stories, and leave a permanent mark on the digital universe.</p>
+
+    <p>On the court, as an athlete, everything is physical. It’s endurance, sweat, and split-second decisions under immense pressure. But behind the keyboard, the rules change. The limits are constrained <strong>only by imagination and discipline.</strong></p>
+
+    <p>Code can be frustrating. It is relentless, unforgiving, and brutally honest. But when that script finally compiles... when that architecture finally breathes and works—there is absolutely no greater feeling in the world.</p>
+
+    <p>I am not here just to push tickets. I am here to build proof that I was here.</p>
+
+    <a href="index.html" class="back">← Back to Portfolio</a>
+  </div>
+
+</body>
+</html>
