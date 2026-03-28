@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>How I Built My Portfolio · Devanshu Dhyanu</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060d1a;--bg2:#081020;--bg3:#0d1a2e;--bg4:#0f1e38;
+  --orange:#ff6124;--orange2:#ff8c4e;--orangeDim:rgba(255,97,36,.12);
+  --orangeGlow:rgba(255,97,36,.25);
+  --white:#eef2f8;--grey:#6e82a0;--greyMid:#8fa3be;--border:#172035;
+  --display:'Bebas Neue',cursive;
+  --body:'DM Sans',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--body);overflow-x:hidden;}
+#cursor-glow{
+  position:fixed;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,97,36,.06) 0%,transparent 70%);
+  pointer-events:none;z-index:0;transform:translate(-50%,-50%);
+  transition:left .4s ease,top .4s ease;
+}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 4vw;
+  background:rgba(6,13,26,.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:var(--display);font-size:1.3rem;letter-spacing:4px;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--orange)}
+.nav-right{display:flex;align-items:center;gap:2rem}
+nav a.back{font-family:var(--mono);font-size:.65rem;letter-spacing:3px;color:var(--grey);text-decoration:none;text-transform:uppercase;transition:color .2s;}
+nav a.back:hover{color:var(--orange)}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--orangeGlow)}50%{box-shadow:0 0 0 8px transparent}}
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:8rem 6vw 6rem;overflow:hidden;
+}
+.hero-grid-lines{
+  position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(rgba(255,97,36,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,97,36,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);
+}
+.hero-number{
+  position:absolute;right:6vw;top:50%;transform:translateY(-50%);
+  font-family:var(--display);font-size:clamp(8rem,20vw,18rem);
+  color:rgba(255,97,36,.04);letter-spacing:-5px;user-select:none;pointer-events:none;line-height:1;
+}
+.hero-tag{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:5px;color:var(--orange);
+  text-transform:uppercase;margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:.8rem;
+  opacity:0;animation:fadeUp .7s .1s forwards;
+}
+.hero-tag::before{content:'';width:32px;height:1px;background:var(--orange);}
+.hero h1{
+  font-family:var(--display);font-size:clamp(4rem,13vw,10.5rem);
+  line-height:.88;letter-spacing:2px;text-transform:uppercase;
+  opacity:0;animation:fadeUp .8s .3s forwards;
+}
+.hero h1 .line2{display:block;-webkit-text-stroke:1.5px rgba(238,242,248,.3);color:transparent;}
+.hero h1 .accent{color:var(--orange)}
+.hero-sub{
+  margin-top:2rem;font-size:1rem;color:var(--grey);font-weight:300;
+  max-width:480px;line-height:1.8;font-style:italic;
+  opacity:0;animation:fadeUp .8s .5s forwards;
+}
+.hero-meta-row{display:flex;gap:3rem;margin-top:2.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .7s forwards;}
+.meta-item .label{font-family:var(--mono);font-size:.6rem;letter-spacing:4px;color:var(--grey);text-transform:uppercase;margin-bottom:.3rem;}
+.meta-item .value{font-size:.88rem;font-weight:500;color:var(--greyMid)}
+.hero-scroll{
+  position:absolute;bottom:2.5rem;left:6vw;
+  display:flex;align-items:center;gap:.8rem;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:4px;color:var(--grey);text-transform:uppercase;
+  opacity:0;animation:fadeUp .8s 1s forwards;
+}
+.hero-scroll .sline{width:40px;height:1px;background:var(--grey);animation:scrollPulse 2s ease infinite;}
+@keyframes scrollPulse{0%,100%{width:20px;opacity:.3}50%{width:40px;opacity:1}}
+section{position:relative;z-index:1;padding:7rem 6vw}
+.s-label{
+  display:flex;align-items:center;gap:.8rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:5px;color:var(--orange);
+  text-transform:uppercase;margin-bottom:1rem;
+}
+.s-label::before{content:'';width:20px;height:1px;background:var(--orange);}
+.s-title{font-family:var(--display);font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:3px;text-transform:uppercase;line-height:.95;margin-bottom:3rem;}
+.intro-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:5rem;align-items:start;}
+.intro-text p{color:var(--grey);font-size:1rem;line-height:1.85;margin-bottom:1.2rem;}
+.intro-text p strong{color:var(--white);font-weight:500;}
+.stat-block{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.stat-cell{background:var(--bg2);padding:2rem 1.5rem;position:relative;overflow:hidden;transition:background .25s;}
+.stat-cell:hover{background:var(--bg3)}
+.stat-cell::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.stat-cell:hover::after{transform:scaleX(1)}
+.stat-num{font-family:var(--display);font-size:3.2rem;color:var(--orange);letter-spacing:2px;line-height:1;margin-bottom:.4rem;}
+.stat-desc{font-family:var(--mono);font-size:.58rem;letter-spacing:3px;color:var(--grey);text-transform:uppercase;}
+.bento-section{background:var(--bg2);}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:1.5px;background:var(--border);}
+.bento-cell{background:var(--bg);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:background .3s;}
+.bento-cell:hover{background:var(--bg3)}
+.bento-cell.big{grid-column:span 2}
+.bento-cell::before{content:attr(data-n);position:absolute;right:1.5rem;bottom:.5rem;font-family:var(--display);font-size:5rem;color:rgba(255,97,36,.05);letter-spacing:2px;line-height:1;pointer-events:none;}
+.bento-phase{font-family:var(--mono);font-size:.58rem;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:.8rem;}
+.bento-title{font-family:var(--display);font-size:1.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem;line-height:1;}
+.bento-text{color:var(--grey);font-size:.9rem;line-height:1.75;max-width:460px;}
+.bento-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.2rem;}
+.tag{padding:.2rem .65rem;border:1px solid var(--border);font-family:var(--mono);font-size:.55rem;letter-spacing:2px;color:var(--grey);text-transform:uppercase;transition:border-color .2s,color .2s;}
+.bento-cell:hover .tag{border-color:var(--orange);color:var(--orange);}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5px;background:var(--border);}
+.tech-card{background:var(--bg);padding:1.8rem;position:relative;overflow:hidden;transition:background .25s;cursor:default;}
+.tech-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.tech-card:hover{background:var(--bg3)}
+.tech-card:hover::after{transform:scaleX(1)}
+.tech-icon{font-size:1.5rem;line-height:1;margin-bottom:.8rem;}
+.tech-name{font-family:var(--display);font-size:1.5rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem;}
+.tech-desc{font-size:.82rem;color:var(--grey);line-height:1.6;}
+.tech-badge{display:inline-block;margin-top:.8rem;padding:.2rem .6rem;background:var(--orangeDim);border:1px solid rgba(255,97,36,.3);color:var(--orange);font-family:var(--mono);font-size:.55rem;letter-spacing:2px;text-transform:uppercase;}
+.code-section{background:var(--bg2);}
+.code-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0;overflow-x:auto;}
+.code-tab{padding:.7rem 1.4rem;font-family:var(--mono);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--grey);cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap;}
+.code-tab.active{color:var(--orange);border-bottom-color:var(--orange);}
+.code-tab:hover:not(.active){color:var(--greyMid)}
+.code-panels{border:1px solid var(--border);border-top:none;}
+.code-panel{display:none;}
+.code-panel.active{display:block;}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.2rem;background:var(--bg3);border-bottom:1px solid var(--border);}
+.code-dots{display:flex;gap:6px;}
+.code-dots span{width:10px;height:10px;border-radius:50%;}
+.code-dots span:nth-child(1){background:#ff5f57}
+.code-dots span:nth-child(2){background:#febc2e}
+.code-dots span:nth-child(3){background:#28c840}
+.code-file{font-family:var(--mono);font-size:.6rem;letter-spacing:2px;color:var(--grey);text-transform:uppercase;}
+pre{padding:1.5rem;font-family:var(--mono);font-size:.78rem;line-height:1.85;overflow-x:auto;color:#8fa3be;}
+.kw{color:#c792ea}.fn{color:#82aaff}.str{color:#c3e88d}.cm{color:#445566;font-style:italic}.num{color:var(--orange)}.at{color:#ffcb6b}
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
+.lesson{border:1px solid var(--border);padding:2rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;}
+.lesson::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(135deg,var(--orangeDim),transparent);transition:left .4s ease;}
+.lesson:hover{border-color:var(--orange);transform:translateY(-4px)}
+.lesson:hover::before{left:0}
+.lesson-n{font-family:var(--display);font-size:4rem;color:var(--border);line-height:1;margin-bottom:.8rem;letter-spacing:2px;position:relative;z-index:1;}
+.lesson-title{font-weight:600;font-size:.95rem;margin-bottom:.5rem;position:relative;z-index:1;}
+.lesson-body{font-size:.85rem;color:var(--grey);line-height:1.7;position:relative;z-index:1;}
+.cta{text-align:center;padding:9rem 6vw;position:relative;overflow:hidden;border-top:1px solid var(--border);}
+.cta-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--display);font-size:clamp(5rem,18vw,14rem);color:rgba(255,97,36,.03);letter-spacing:-4px;white-space:nowrap;pointer-events:none;user-select:none;}
+.cta h2{font-family:var(--display);font-size:clamp(3rem,8vw,7rem);letter-spacing:3px;text-transform:uppercase;line-height:.92;margin-bottom:1.5rem;position:relative;}
+.cta h2 span{color:var(--orange)}
+.cta p{color:var(--grey);max-width:440px;margin:0 auto 2.5rem;font-size:1rem;line-height:1.7;position:relative;}
+.btn-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn{padding:.9rem 2.5rem;font-family:var(--mono);font-size:.7rem;letter-spacing:3px;text-transform:uppercase;text-decoration:none;font-weight:600;transition:all .2s;display:inline-block;}
+.btn-solid{background:var(--orange);color:#000;}
+.btn-solid:hover{background:var(--orange2);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--white);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px);}
+footer{position:relative;z-index:1;text-align:center;padding:1.8rem 6vw;border-top:1px solid var(--border);font-family:var(--mono);font-size:.6rem;letter-spacing:4px;color:var(--grey);text-transform:uppercase;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+@media(max-width:780px){
+  .intro-wrap{grid-template-columns:1fr;gap:2.5rem;}
+  .bento{grid-template-columns:1fr;}
+  .bento-cell.big{grid-column:span 1;}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+
+<nav>
+  <a class="nav-logo" href="https://portfolio.vajracognixia.in">D<span>.</span>DHYANU</a>
+  <div class="nav-right">
+    <div class="nav-dot"></div>
+    <a class="back" href="https://portfolio.vajracognixia.in">← Portfolio</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-number">01</div>
+  <div class="hero-tag">Case Study · 2024—2025</div>
+  <h1>
+    HOW I
+    <span class="line2">BUILT MY</span>
+    <span class="accent">PORTFOLIO</span>
+  </h1>
+  <p class="hero-sub">
+    A raw breakdown of every decision, every tool, every sleepless iteration that went into building <em>portfolio.vajracognixia.in</em> — from blank file to live production.
+  </p>
+  <div class="hero-meta-row">
+    <div class="meta-item"><div class="label">Stack</div><div class="value">HTML · CSS · JS · Firebase</div></div>
+    <div class="meta-item"><div class="label">Hosted</div><div class="value">Firebase Hosting</div></div>
+    <div class="meta-item"><div class="label">Domain</div><div class="value">portfolio.vajracognixia.in</div></div>
+    <div class="meta-item"><div class="label">Builder</div><div class="value">Devanshu Dhyanu</div></div>
+  </div>
+  <div class="hero-scroll">
+    <div class="sline"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<section>
+  <div class="s-label reveal">01 · The Origin</div>
+  <div class="intro-wrap">
+    <div class="intro-text reveal">
+      <div class="s-title">THE<br>IDEA</div>
+      <p>Most students build portfolios with templates — drag, drop, publish. I wanted something that <strong>proves itself by existing</strong>. If I claim to build real things, my portfolio should be a real thing.</p>
+      <p>The constraint: <strong>zero templates, zero frameworks, zero shortcuts</strong>. Every pixel, every animation, every API call — hand-written. The portfolio is the project.</p>
+      <p>As a <strong>B.Tech CSE student at LPU</strong> and national-level handball player, I wanted both identities to come through. Technical precision of a developer, competitive drive of an athlete.</p>
+    </div>
+    <div class="stat-block reveal">
+      <div class="stat-cell"><div class="stat-num">0</div><div class="stat-desc">Templates used</div></div>
+      <div class="stat-cell"><div class="stat-num">1</div><div class="stat-desc">Dev · just me</div></div>
+      <div class="stat-cell"><div class="stat-num">100%</div><div class="stat-desc">Custom code</div></div>
+      <div class="stat-cell"><div class="stat-num">∞</div><div class="stat-desc">Iterations</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="bento-section">
+  <div class="s-label reveal">02 · The Process</div>
+  <div class="s-title reveal">HOW IT<br>CAME ALIVE</div>
+  <div class="bento reveal">
+    <div class="bento-cell big" data-n="01">
+      <div class="bento-phase">Phase 01 · Design</div>
+      <div class="bento-title">Vision &amp; Wireframe</div>
+      <p class="bento-text">Started with rough pencil sketches on paper. Decided on a dark monochrome palette — <code style="color:var(--orange);font-family:var(--mono);font-size:.8rem">#060d1a</code> background, orange as the only accent, Bebas Neue for display punch. The rule: if it doesn't feel sharp, cut it. Took three complete redesigns before anything felt right.</p>
+      <div class="bento-tags"><span class="tag">Sketching</span><span class="tag">Typography</span><span class="tag">Color theory</span></div>
+    </div>
+    <div class="bento-cell" data-n="02">
+      <div class="bento-phase">Phase 02 · Build</div>
+      <div class="bento-title">HTML Foundation</div>
+      <p class="bento-text">Semantic skeleton first. Proper landmarks, headings, accessibility. CSS custom properties set up before a single component was built.</p>
+      <div class="bento-tags"><span class="tag">HTML5</span><span class="tag">CSS vars</span></div>
+    </div>
+    <div class="bento-cell" data-n="03">
+      <div class="bento-phase">Phase 03 · Style</div>
+      <div class="bento-title">CSS &amp; Motion</div>
+      <p class="bento-text">No frameworks. Pure CSS — grid, flexbox, keyframe animations, glassmorphism, scroll-snap, noise overlay. Every hover state was a deliberate micro-decision.</p>
+      <div class="bento-tags"><span class="tag">CSS3</span><span class="tag">Animations</span></div>
+    </div>
+    <div class="bento-cell" data-n="04">
+      <div class="bento-phase">Phase 04 · JS</div>
+      <div class="bento-title">Interactivity</div>
+      <p class="bento-text">IntersectionObserver, GitHub REST API, Web Speech API, EmailJS — all vanilla JS. No React, no Vue. Each feature had to justify its bytes.</p>
+      <div class="bento-tags"><span class="tag">Vanilla JS</span><span class="tag">APIs</span></div>
+    </div>
+    <div class="bento-cell" data-n="05">
+      <div class="bento-phase">Phase 05 · Backend</div>
+      <div class="bento-title">Firebase</div>
+      <p class="bento-text">Firestore for contact messages. AI assistant via Claude API. Firebase Hosting for custom domain + free SSL — production-grade at zero cost.</p>
+      <div class="bento-tags"><span class="tag">Firestore</span><span class="tag">Hosting</span><span class="tag">Claude API</span></div>
+    </div>
+    <div class="bento-cell" data-n="06">
+      <div class="bento-phase">Phase 06 · Live</div>
+      <div class="bento-title">Ship &amp; Iterate</div>
+      <p class="bento-text">Deployed. Shared. Got feedback. Fixed mobile. Added certifications, gallery, testimonials. A portfolio is never finished — it grows with you.</p>
+      <div class="bento-tags"><span class="tag">Deployed</span><span class="tag">Live</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="s-label reveal">03 · Tech Stack</div>
+  <div class="s-title reveal">TOOLS<br>USED</div>
+  <div class="tech-grid reveal">
+    <div class="tech-card"><div class="tech-icon">🌐</div><div class="tech-name">HTML5</div><div class="tech-desc">Semantic structure, accessibility, landmark elements. 100% hand-written — no generators.</div><div class="tech-badge">Structure</div></div>
+    <div class="tech-card"><div class="tech-icon">🎨</div><div class="tech-name">CSS3</div><div class="tech-desc">Custom properties, grid, flexbox, keyframes, scroll-snap, glassmorphism. No framework.</div><div class="tech-badge">Styling</div></div>
+    <div class="tech-card"><div class="tech-icon">⚡</div><div class="tech-name">JavaScript</div><div class="tech-desc">IntersectionObserver, GitHub API, Web Speech API, EmailJS. Vanilla only.</div><div class="tech-badge">Logic</div></div>
+    <div class="tech-card"><div class="tech-icon">🔥</div><div class="tech-name">Firebase</div><div class="tech-desc">Firestore for messages. Hosting for custom domain, free SSL, global CDN.</div><div class="tech-badge">Backend</div></div>
+    <div class="tech-card"><div class="tech-icon">✉️</div><div class="tech-name">EmailJS</div><div class="tech-desc">Contact form to email, zero backend. SDK loaded directly from CDN.</div><div class="tech-badge">Email</div></div>
+    <div class="tech-card"><div class="tech-icon">🐙</div><div class="tech-name">GitHub API</div><div class="tech-desc">Live repo fetcher pulls latest repos and push timestamps dynamically every visit.</div><div class="tech-badge">Live data</div></div>
+    <div class="tech-card"><div class="tech-icon">🔤</div><div class="tech-name">Google Fonts</div><div class="tech-desc">Bebas Neue for display. DM Sans for body. JetBrains Mono for code.</div><div class="tech-badge">Typography</div></div>
+    <div class="tech-card"><div class="tech-icon">🤖</div><div class="tech-name">Claude API</div><div class="tech-desc">Powers the on-page AI assistant — answers visitor questions about skills and projects.</div><div class="tech-badge">AI Feature</div></div>
+  </div>
+</section>
+
+<section class="code-section">
+  <div class="s-label reveal">04 · The Code</div>
+  <div class="s-title reveal">REAL CODE<br>WRITTEN</div>
+  <div class="reveal">
+    <div class="code-tabs">
+      <div class="code-tab active" onclick="switchTab(0)">GitHub API</div>
+      <div class="code-tab" onclick="switchTab(1)">Scroll Reveal</div>
+      <div class="code-tab" onclick="switchTab(2)">Audio Resume</div>
+      <div class="code-tab" onclick="switchTab(3)">Deploy Config</div>
+    </div>
+    <div class="code-panels">
+      <div class="code-panel active">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-file">github-repos.js</div></div>
+        <pre><span class="cm">// Live GitHub repo fetcher — runs on page load</span>
+<span class="kw">async function</span> <span class="fn">fetchRepos</span>() {
+  <span class="kw">const</span> base = <span class="str">'https://api.github.com/users'</span>;
+  <span class="kw">const</span> user = <span class="str">'Devanshu-Dhyanu'</span>;
+  <span class="kw">const</span> res  = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`<span class="at">${base}</span>/<span class="at">${user}</span>/repos?sort=pushed`</span>);
+  <span class="kw">const</span> repos = <span class="kw">await</span> res.<span class="fn">json</span>();
+
+  repos.<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">6</span>).<span class="fn">forEach</span>(repo => {
+    <span class="kw">const</span> card = <span class="fn">createCard</span>(repo.name, repo.pushed_at);
+    document.<span class="fn">querySelector</span>(<span class="str">'#repo-grid'</span>).<span class="fn">appendChild</span>(card);
+  });
+}
+
+<span class="fn">fetchRepos</span>();</pre>
+      </div>
+      <div class="code-panel">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-file">scroll-reveal.js</div></div>
+        <pre><span class="cm">// IntersectionObserver for scroll-triggered reveals</span>
+<span class="kw">const</span> observer = <span class="kw">new</span> <span class="fn">IntersectionObserver</span>(
+  (entries) => {
+    entries.<span class="fn">forEach</span>(entry => {
+      <span class="kw">if</span> (entry.isIntersecting) {
+        entry.target.classList.<span class="fn">add</span>(<span class="str">'visible'</span>);
+        observer.<span class="fn">unobserve</span>(entry.target);
+      }
+    });
+  },
+  { threshold: <span class="num">0.15</span> }
+);
+
+document.<span class="fn">querySelectorAll</span>(<span class="str">'.reveal'</span>)
+  .<span class="fn">forEach</span>(el => observer.<span class="fn">observe</span>(el));</pre>
+      </div>
+      <div class="code-panel">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-file">audio-resume.js</div></div>
+        <pre><span class="cm">// Web Speech API — no library, zero cost</span>
+<span class="kw">function</span> <span class="fn">playAudioResume</span>() {
+  <span class="kw">const</span> synth = window.speechSynthesis;
+  <span class="kw">const</span> text  = <span class="str">`Hi, I'm Devanshu Dhyanu —
+    Full Stack Developer at LPU.
+    I build real products, not assignments.`</span>;
+
+  <span class="kw">const</span> utt = <span class="kw">new</span> <span class="fn">SpeechSynthesisUtterance</span>(text);
+  utt.rate  = <span class="num">0.95</span>;
+  utt.pitch = <span class="num">1.0</span>;
+  synth.<span class="fn">speak</span>(utt);
+}</pre>
+      </div>
+      <div class="code-panel">
+        <div class="code-head"><div class="code-dots"><span></span><span></span><span></span></div><div class="code-file">firebase.json</div></div>
+        <pre>{
+  <span class="at">"hosting"</span>: {
+    <span class="at">"public"</span>: <span class="str">"."</span>,
+    <span class="at">"ignore"</span>: [<span class="str">"firebase.json"</span>, <span class="str">".firebaserc"</span>],
+    <span class="at">"headers"</span>: [{
+      <span class="at">"source"</span>: <span class="str">"**/*.@(js|css)"</span>,
+      <span class="at">"headers"</span>: [{
+        <span class="at">"key"</span>: <span class="str">"Cache-Control"</span>,
+        <span class="at">"value"</span>: <span class="str">"max-age=604800"</span>
+      }]
+    }]
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="s-label reveal">05 · Lessons</div>
+  <div class="s-title reveal">WHAT I<br>LEARNED</div>
+  <div class="lessons-grid">
+    <div class="lesson reveal"><div class="lesson-n">01</div><div class="lesson-title">Design before code</div><p class="lesson-body">Jumping straight to HTML without a visual plan wastes hours. Even rough paper sketches save massive refactoring later.</p></div>
+    <div class="lesson reveal"><div class="lesson-n">02</div><div class="lesson-title">CSS variables are powerful</div><p class="lesson-body">Setting up <code style="color:var(--orange);font-family:var(--mono)">:root</code> variables for everything upfront meant I could retheme the entire site in minutes.</p></div>
+    <div class="lesson reveal"><div class="lesson-n">03</div><div class="lesson-title">Vanilla JS is enough</div><p class="lesson-body">No React, no Vue. Modern Web APIs — IntersectionObserver, SpeechSynthesis, Fetch — cover nearly every portfolio need natively.</p></div>
+    <div class="lesson reveal"><div class="lesson-n">04</div><div class="lesson-title">Mobile first always</div><p class="lesson-body">Built desktop first, paid the price with hours of broken breakpoints. Mobile first from day one next time — non-negotiable.</p></div>
+    <div class="lesson reveal"><div class="lesson-n">05</div><div class="lesson-title">Optimise every asset</div><p class="lesson-body">Uncompressed images tanked load time. Compressing to WebP and adding lazy loading made a measurable, visible difference.</p></div>
+    <div class="lesson reveal"><div class="lesson-n">06</div><div class="lesson-title">Ship, then improve</div><p class="lesson-body">Waiting for perfect means never launching. Put it live, get real feedback, iterate fast. Done is better than perfect — always.</p></div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-bg-text">LIVE</div>
+  <h2 class="reveal">SEE THE<br><span>RESULT</span></h2>
+  <p class="reveal">The portfolio is live, production-ready, and constantly evolving. Come see what it became.</p>
+  <div class="btn-row reveal">
+    <a class="btn btn-solid" href="https://portfolio.vajracognixia.in" target="_blank">View Portfolio →</a>
+    <a class="btn btn-outline" href="https://vajracognixia.in" target="_blank">VajraCognixia →</a>
+  </div>
+</section>
+
+<footer>© 2025 Devanshu Dhyanu · LPU · Phagwara, Punjab · Built with zero templates</footer>
+
+<script>
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+function switchTab(i){
+  document.querySelectorAll('.code-tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  document.querySelectorAll('.code-panel').forEach((p,j)=>p.classList.toggle('active',i===j));
+}
+</script>
+</body>
+</html>

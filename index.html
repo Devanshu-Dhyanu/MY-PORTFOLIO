@@ -60,6 +60,14 @@
         --border: rgba(255, 255, 255, 0.07);
       }
 
+      .theme-light {
+        --bg: #ffffff;
+        --bg2: #f8f9fa;
+        --white: #121212;
+        --dim: rgba(0, 0, 0, 0.6);
+        --border: rgba(0, 0, 0, 0.15);
+      }
+
       .theme-blue {
         --red: #007bff;
         --red2: #0056b3;
@@ -2418,9 +2426,13 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="Gallery.html">Gallery</a></li>
+        <li><a href="How_i_built.html">How I Built</a></li>
         <li><a href="manifesto.html">Manifesto</a></li>
       </ul>
-      <button id="themeToggle" class="theme-btn">🎨</button>
+      <div style="display: flex; gap: 10px;">
+        <button id="lightDarkToggle" class="theme-btn" title="Toggle Light/Dark">☀️</button>
+        <button id="themeToggle" class="theme-btn" title="Change Color Accent">🎨</button>
+      </div>
       <a href="#contact" class="nav-cta">Hire Me</a>
     </nav>
 
@@ -3334,7 +3346,7 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
     <div id="customContextMenu">
       <div class="cm-item" id="cmResume">📄 View Resume</div>
       <div class="cm-item" id="cmEmail">📬 Copy Email</div>
-      <div class="cm-item" id="cmTheme">🎨 Next Theme</div>
+      <div class="cm-item" id="cmTheme">🌗 Toggle Light/Dark</div>
       <div class="cm-item" id="cmChat">💬 Open AI Assistant</div>
     </div>
 
@@ -3898,26 +3910,57 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
         }
       });
 
-      /* ── THEME TOGGLE ── */
+      /* ── COLOR ACCENT TOGGLE ── */
       const themeToggle = document.getElementById('themeToggle');
       const themes = [
         '', 'theme-blue', 'theme-green', 'theme-purple',
         'theme-orange', 'theme-pink', 'theme-cyan', 'theme-teal',
         'theme-yellow', 'theme-magenta', 'theme-neon', 'theme-monochrome'
       ];
-      let currentTheme = 0;
+      let currentTheme = localStorage.getItem('colorThemeIndex') ? parseInt(localStorage.getItem('colorThemeIndex')) : 0;
+
+      // Apply initial color theme
+      if (currentTheme > 0 && currentTheme < themes.length) {
+        document.body.classList.add(themes[currentTheme]);
+      }
 
       themeToggle.addEventListener('click', () => {
+        if (currentTheme > 0) {
+          document.body.classList.remove(themes[currentTheme]);
+        }
         currentTheme = (currentTheme + 1) % themes.length;
-        document.body.className = themes[currentTheme];
-        localStorage.setItem('theme', themes[currentTheme]);
+        if (currentTheme > 0) {
+          document.body.classList.add(themes[currentTheme]);
+        }
+        localStorage.setItem('colorThemeIndex', currentTheme);
       });
 
-      // Load saved theme
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        document.body.className = savedTheme;
-        currentTheme = themes.indexOf(savedTheme);
+      /* ── LIGHT/DARK THEME TOGGLE ── */
+      const lightDarkToggle = document.getElementById('lightDarkToggle');
+      const cmThemeEl = document.getElementById('cmTheme');
+      
+      const applyLightMode = (isLight) => {
+        if(isLight) {
+          document.body.classList.add('theme-light');
+          lightDarkToggle.innerText = '🌙';
+          localStorage.setItem('themeMode', 'light');
+        } else {
+          document.body.classList.remove('theme-light');
+          lightDarkToggle.innerText = '☀️';
+          localStorage.setItem('themeMode', 'dark');
+        }
+      };
+
+      lightDarkToggle.addEventListener('click', () => {
+        const isLight = !document.body.classList.contains('theme-light');
+        applyLightMode(isLight);
+      });
+
+      // Load saved mode
+      if (localStorage.getItem('themeMode') === 'light') {
+        applyLightMode(true);
+      } else {
+        applyLightMode(false);
       }
 
       /* ── AI CHATBOT ── */
