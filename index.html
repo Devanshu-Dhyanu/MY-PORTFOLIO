@@ -22,6 +22,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <style>
       *,
       *::before,
@@ -64,6 +66,62 @@
         --gold2: #ffc107;
       }
 
+      .theme-orange {
+        --red: #fd7e14;
+        --red2: #ff922b;
+        --gold: #fcc419;
+        --gold2: #ffe066;
+      }
+
+      .theme-pink {
+        --red: #e64980;
+        --red2: #f06595;
+        --gold: #faa2c1;
+        --gold2: #fcc2d7;
+      }
+
+      .theme-cyan {
+        --red: #15aabf;
+        --red2: #22b8cf;
+        --gold: #66d9e8;
+        --gold2: #99e9f2;
+      }
+
+      .theme-teal {
+        --red: #12b886;
+        --red2: #20c997;
+        --gold: #63e6be;
+        --gold2: #96f2d7;
+      }
+
+      .theme-yellow {
+        --red: #fab005;
+        --red2: #fcc419;
+        --gold: #ffe066;
+        --gold2: #fff3bf;
+      }
+
+      .theme-magenta {
+        --red: #c2255c;
+        --red2: #d6336c;
+        --gold: #f06595;
+        --gold2: #faa2c1;
+      }
+
+      .theme-neon {
+        --red: #39ff14;
+        --red2: #0ff;
+        --gold: #f0f;
+        --gold2: #ffeb3b;
+      }
+
+      .theme-monochrome {
+        --red: #868e96;
+        --red2: #adb5bd;
+        --gold: #dee2e6;
+        --gold2: #f8f9fa;
+      }
+
       html {
         scroll-behavior: smooth;
         overflow-x: hidden;
@@ -89,47 +147,11 @@
       body {
         background: var(--bg);
         color: var(--white);
-        font-family: "DM Sans", sans-serif;
+        font-family: inherit; /* Update to inherit DM Sans */
         overflow-x: hidden;
-        cursor: none;
       }
 
-      /* ─── CURSOR ─── */
-      #cur {
-        position: fixed;
-        width: 8px;
-        height: 8px;
-        background: var(--red);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-        transition: width 0.2s, height 0.2s, background 0.2s;
-      }
-
-      #cur2 {
-        position: fixed;
-        width: 32px;
-        height: 32px;
-        border: 1px solid rgba(230, 57, 70, 0.5);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-        transition: all 0.08s linear;
-      }
-
-      body:has(a:hover) #cur {
-        width: 16px;
-        height: 16px;
-        background: var(--gold);
-      }
-
-      body:has(a:hover) #cur2 {
-        width: 48px;
-        height: 48px;
-        border-color: rgba(201, 162, 39, 0.5);
-      }
+ /* REMOVED CURSOR CSS */ 
 
       /* ─── NOISE OVERLAY ─── */
       .noise {
@@ -2255,14 +2277,54 @@
           font-size: 11px;
         }
       }
+
+      /* ── LENIS SMOOTH SCROLLING ── */
+      html.lenis, html.lenis body { height: auto; }
+      .lenis.lenis-smooth { scroll-behavior: auto !important; }
+      .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+      .lenis.lenis-stopped { overflow: hidden; }
+      .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+      /* ── CUSTOM CONTEXT MENU ── */
+      #customContextMenu {
+        position: fixed;
+        z-index: 100000;
+        width: 200px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 5px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        display: none;
+        flex-direction: column;
+        color: var(--white);
+        font-family: inherit;
+        font-size: 14px;
+        backdrop-filter: blur(10px);
+      }
+      #customContextMenu.active {
+        display: flex;
+        animation: fadeIn 0.2s ease;
+      }
+      .cm-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .cm-item:hover {
+        background: var(--red);
+        color: #fff;
+      }
     </style>
   </head>
 
   <body>
     <!-- SKIP LINK -->
     <a href="#main" class="skip-link">Skip to main content</a>
-    <div id="cur"></div>
-    <div id="cur2"></div>
+    <!-- REMOVED CURSOR HTML -->
     <div class="noise"></div>
     <canvas id="canvas"></canvas>
 
@@ -2647,6 +2709,140 @@
         </div>
       </section>
 
+      <!-- SOCIALS -->
+      <section id="socials">
+        <div class="s-label">Connect</div>
+        <h2 class="s-title reveal">MY <span>SOCIALS</span></h2>
+        <div class="proj-list reveal">
+          <!-- LinkedIn -->
+          <a class="proj-card" href="https://linkedin.com/in/devanshudhyanu" target="_blank">
+            <div class="proj-num">01</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9h3.56v11.45zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM20.45 20.45h-3.56v-5.56c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.66h-3.56V9h3.42v1.56h.05c.48-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">LINKED<span>IN</span></div>
+              <div class="proj-desc">
+                Connect with me professionally, view my career updates, and let's grow our network together.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Networking</span>
+                <span class="chip">Connect</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+          
+          <!-- Instagram -->
+          <a class="proj-card" href="https://instagram.com/devanshu_dhyanu" target="_blank">
+            <div class="proj-num">02</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">INSTA<span>GRAM</span></div>
+              <div class="proj-desc">
+                Follow me for insights into my life, behind the scenes of my projects, and my sporting journey.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Lifestyle</span>
+                <span class="chip">Updates</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+
+          <!-- Facebook -->
+          <a class="proj-card" href="https://facebook.com/devanshu.dhyanu" target="_blank">
+            <div class="proj-num">03</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">FACE<span>BOOK</span></div>
+              <div class="proj-desc">
+                Engage with my community, read updates, and connect with me on the leading social network.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Community</span>
+                <span class="chip">Social</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+
+          <!-- LeetCode -->
+          <a class="proj-card" href="https://leetcode.com/devanshu_dhyanu13" target="_blank">
+            <div class="proj-num">04</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.253C4.638 15.511 4 14.478 4 13.255s.638-2.256 1.426-3.028l4.908-4.814-.002.002c.465-.466 1.11-.661 1.822-.661s1.358.195 1.824.661l2.697 2.606c.516.515.516 1.348 0 1.864l-2.585 2.5a.65.65 0 0 1-.926 0l-.826-.8c-.287-.286-.757-.286-1.043 0l-1.722 1.666a.71.71 0 0 0 0 1.014l2.586 2.5c.287.286.756.286 1.043 0l1.721-1.666.827.8a.65.65 0 0 1 0 .926zm6.549-3.818l-1.74-1.684a.65.65 0 0 0-.926 0l-1.74 1.684c-.286.286-.286.757 0 1.043l1.722 1.666c.287.286.756.286 1.043 0l1.74-1.684a.71.71 0 0 0 0-1.014v-.011z"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">LEET<span>CODE</span></div>
+              <div class="proj-desc">
+                Check out my competitive programming profile and algorithm problem-solving progress.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Algorithms</span>
+                <span class="chip">Coding</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+
+          <!-- Blog -->
+          <a class="proj-card" href="#" target="_blank">
+            <div class="proj-num">05</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M4 1h16a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3zm1 4v2h14V5H5zm0 4v2h14V9H5zm0 4v2h14v-2H5zm0 4v2h8v-2H5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">MY <span>BLOG</span></div>
+              <div class="proj-desc">
+                Read my thoughts on technology, full-stack development, and my experiences as a student and athlete.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Articles</span>
+                <span class="chip">Tech</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+
+          <!-- Pinterest -->
+          <a class="proj-card" href="https://pinterest.com/devanshudhyanu" target="_blank">
+            <div class="proj-num">06</div>
+            <div class="proj-image">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width: 80px; height: 80px; color: var(--gold); margin: auto; display: block;">
+                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.366 18.601 0 12.017 0z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="proj-name">PINT<span>EREST</span></div>
+              <div class="proj-desc">
+                Explore my curated pins, design inspiration, and creative ideas for future projects.
+              </div>
+              <div class="proj-chips">
+                <span class="chip">Inspiration</span>
+                <span class="chip">Design</span>
+              </div>
+            </div>
+            <div class="proj-arrow">→</div>
+          </a>
+
+        </div>
+      </section>
+
       <!-- GITHUB REPOS -->
       <section id="github-repos" class="github-section reveal">
         <div class="s-label">Live</div>
@@ -2948,6 +3144,14 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
       <img class="modal-content" id="modalImg" />
     </div>
 
+    <!-- CUSTOM CONTEXT MENU -->
+    <div id="customContextMenu">
+      <div class="cm-item" id="cmResume">📄 View Resume</div>
+      <div class="cm-item" id="cmEmail">📬 Copy Email</div>
+      <div class="cm-item" id="cmTheme">🎨 Next Theme</div>
+      <div class="cm-item" id="cmChat">💬 Open AI Assistant</div>
+    </div>
+
     <!-- CHATBOT -->
     <button class="chatbot-btn" id="chatbotBtn" aria-label="Open Chatbot">💬</button>
     <div class="chatbot-container" id="chatbotContainer">
@@ -2963,100 +3167,83 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
     </div>
 
     <script>
-      /* ── CURSOR ── */
-      const cur = document.getElementById("cur"),
-        cur2 = document.getElementById("cur2");
-      let mx = 0,
-        my = 0,
-        rx = 0,
-        ry = 0;
-      document.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-        cur.style.left = mx + "px";
-        cur.style.top = my + "px";
-      });
-      (function loop() {
-        rx += (mx - rx) * 0.1;
-        ry += (my - ry) * 0.1;
-        cur2.style.left = rx + "px";
-        cur2.style.top = ry + "px";
-        requestAnimationFrame(loop);
-      })();
+ /* REMOVED CURSOR JS */ 
 
-      /* ── PARTICLES ── */
+      /* ── 3D HERO ELEMENT (THREE.JS) ── */
       const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      let W,
-        H,
-        particles = [];
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.z = 12;
+
+      // Abstract Geometry: Icosahedron
+      const geometry = new THREE.IcosahedronGeometry(4, 1);
+      
+      // Wireframe Material (uses CSS var colors natively via hardcoding to match default theme)
+      const material = new THREE.MeshBasicMaterial({ 
+        color: 0xe63946, 
+        wireframe: true,
+        transparent: true,
+        opacity: 0.15
+      });
+      
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+
+      // Floating particles
+      const particlesGeometry = new THREE.BufferGeometry();
+      const particlesCount = 150;
+      const posArray = new Float32Array(particlesCount * 3);
+      for(let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 30;
+      }
+      particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+      const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.05,
+        color: 0xc9a227,
+        transparent: true,
+        opacity: 0.4
+      });
+      const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+      scene.add(particlesMesh);
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+      const windowHalfX = window.innerWidth / 2;
+      const windowHalfY = window.innerHeight / 2;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - windowHalfX) * 0.001;
+        mouseY = (e.clientY - windowHalfY) * 0.001;
+      });
+
       function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
       }
+      window.addEventListener('resize', resize);
       resize();
-      window.addEventListener("resize", resize);
 
-      class Particle {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * W;
-          this.y = Math.random() * H;
-          this.vx = (Math.random() - 0.5) * 0.3;
-          this.vy = (Math.random() - 0.5) * 0.3;
-          this.r = Math.random() * 1.2 + 0.2;
-          this.a = Math.random() * 0.4 + 0.05;
-          this.color =
-            Math.random() > 0.7
-              ? `rgba(230,57,70,${this.a})`
-              : `rgba(201,162,39,${this.a * 0.5})`;
-        }
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0 || this.x > W || this.y < 0 || this.y > H)
-            this.reset();
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
-          ctx.fill();
-        }
+      function animate3D() {
+        requestAnimationFrame(animate3D);
+        
+        targetX = mouseX * 0.5;
+        targetY = mouseY * 0.5;
+        
+        mesh.rotation.y += 0.002 + (targetX - mesh.rotation.y) * 0.05;
+        mesh.rotation.x += 0.002 + (targetY - mesh.rotation.x) * 0.05;
+        
+        particlesMesh.rotation.y = -mouseX * 0.2;
+        particlesMesh.rotation.x = -mouseY * 0.2;
+        
+        renderer.render(scene, camera);
       }
-      for (let i = 0; i < 120; i++) particles.push(new Particle());
-
-      // Lines between nearby particles
-      function drawLines() {
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const d = Math.sqrt(dx * dx + dy * dy);
-            if (d < 100) {
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.strokeStyle = `rgba(230,57,70,${0.06 * (1 - d / 100)})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          }
-        }
-      }
-
-      function animParticles() {
-        ctx.clearRect(0, 0, W, H);
-        drawLines();
-        particles.forEach((p) => {
-          p.update();
-          p.draw();
-        });
-        requestAnimationFrame(animParticles);
-      }
-      animParticles();
+      animate3D();
 
       /* ── INTRO ── */
       const name = "DEVANSHU DHYANU";
@@ -3527,7 +3714,11 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
 
       /* ── THEME TOGGLE ── */
       const themeToggle = document.getElementById('themeToggle');
-      const themes = ['', 'theme-blue', 'theme-green', 'theme-purple'];
+      const themes = [
+        '', 'theme-blue', 'theme-green', 'theme-purple',
+        'theme-orange', 'theme-pink', 'theme-cyan', 'theme-teal',
+        'theme-yellow', 'theme-magenta', 'theme-neon', 'theme-monochrome'
+      ];
       let currentTheme = 0;
 
       themeToggle.addEventListener('click', () => {
@@ -3694,6 +3885,81 @@ create_resume("Devanshu Dhyanu", "devanshu@example.com")</code></pre>
           }
         }
       });
+
+      /* ── LENIS SMOOTH SCROLLING ── */
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        mouseMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      /* ── CUSTOM CONTEXT MENU ── */
+      const contextMenu = document.getElementById("customContextMenu");
+      const cmResume = document.getElementById("cmResume");
+      const cmEmail = document.getElementById("cmEmail");
+      const cmTheme = document.getElementById("cmTheme");
+      const cmChat = document.getElementById("cmChat");
+
+      document.addEventListener("click", () => {
+        contextMenu.classList.remove("active");
+      });
+
+      document.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        
+        let x = e.clientX;
+        let y = e.clientY;
+        const menuWidth = 200;
+        const menuHeight = 170;
+        
+        if (x + menuWidth > window.innerWidth) x = window.innerWidth - menuWidth - 10;
+        if (y + menuHeight > window.innerHeight) y = window.innerHeight - menuHeight - 10;
+
+        contextMenu.style.left = `${x}px`;
+        contextMenu.style.top = `${y}px`;
+        contextMenu.classList.add("active");
+      });
+
+      if(cmResume) {
+        cmResume.addEventListener("click", () => {
+          const dl = document.createElement("a");
+          dl.href = "Devanshu_Kumar_Resume.pdf";
+          dl.download = "Devanshu_Kumar_Resume.pdf";
+          dl.click();
+        });
+      }
+      
+      if(cmEmail) {
+        cmEmail.addEventListener("click", () => {
+          navigator.clipboard.writeText("devanshudhyanu0813@gmail.com").then(() => {
+            const original = cmEmail.innerText;
+            cmEmail.innerText = "✅ Copied!";
+            setTimeout(() => cmEmail.innerText = original, 2000);
+          });
+        });
+      }
+
+      if(cmTheme && themeToggle) {
+        cmTheme.addEventListener("click", () => themeToggle.click());
+      }
+
+      if(cmChat && chatbotBtn) {
+        cmChat.addEventListener("click", () => {
+          if(!chatbotContainer.classList.contains('open')) chatbotBtn.click();
+        });
+      }
 
     </script>
   </body>
